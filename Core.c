@@ -107,9 +107,7 @@ bool tickFunc(Core *core)
 		//Signal alu_in_1 = MUX(ID_reg_load.signals.ALUSrc,ID_reg_load.read_reg_val_2,ID_reg_load.imm_sign_extended);
 		
 		Signal Forward_A, Forward_B; //<----------------------------------------------------------------------- change
-		 forwarding_unit(&Forward_A,
-					&Forward_B, IF_reg_load, ID_reg_load,
-				 E_reg_load, M_reg_load , WB_reg_load	); 
+		 forwarding_unit(&Forward_A,&Forward_B,IF_reg_load,ID_reg_load,E_reg_load,M_reg_load,WB_reg_load); 
 		printf("%s = %ld\n",VariableName(Forward_A),Forward_A);
 		printf("%s = %ld\n",VariableName(Forward_B),Forward_B);
 		Signal alu_in_1 = MUX(ID_reg_load.signals.ALUSrc,ID_reg_load.read_reg_val_2,ID_reg_load.imm_sign_extended);		
@@ -470,6 +468,13 @@ Signal forwarding_unit(Signal *Forward_A,
 {
 	*Forward_A, *Forward_B =0 ;
 
+	printf("%s = %ld\n",VariableName(M_reg_load.signals.RegWrite),M_reg_load.signals.RegWrite);
+	printf("%s = %ld\n",VariableName(M_reg_load.write_reg),M_reg_load.write_reg);
+	printf("%s = %ld\n",VariableName(E_reg_load.RegWrite),E_reg_load.RegWrite);
+	printf("%s = %ld\n",VariableName(E_reg_load.write_reg),E_reg_load.write_reg);
+	printf("%s = %ld\n",VariableName(ID_reg_load.reg_read_index_1),ID_reg_load.reg_read_index_1);
+	printf("%s = %ld\n",VariableName(ID_reg_load.reg_read_index_2),ID_reg_load.reg_read_index_2); 
+
 	if (
 	(E_reg_load.signals.RegWrite) &&
 	(E_reg_load.write_reg != 0) &&
@@ -495,12 +500,7 @@ Signal forwarding_unit(Signal *Forward_A,
 	{
 		*Forward_A = 1;
 	}
-	/* printf("%s = %ld\n",VariableName(M_reg_load.signals.RegWrite),M_reg_load.signals.RegWrite);
-	printf("%s = %ld\n",VariableName(M_reg_load.write_reg),M_reg_load.write_reg);
-	printf("%s = %ld\n",VariableName(E_reg_load.RegWrite),E_reg_load.RegWrite);
-	printf("%s = %ld\n",VariableName(E_reg_load.write_reg),E_reg_load.write_reg);
-	printf("%s = %ld\n",VariableName(ID_reg_load.reg_read_index_1),ID_reg_load.reg_read_index_1);
-	printf("%s = %ld\n",VariableName(ID_reg_load.reg_read_index_2),ID_reg_load.reg_read_index_2); */
+	
 	if(M_reg_load.signals.RegWrite &&
 	(M_reg_load.write_reg != 0) &&
 	(~(E_reg_load.RegWrite && (E_reg_load.write_reg != 0))) &&
