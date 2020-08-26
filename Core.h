@@ -52,8 +52,8 @@ typedef struct Reg_Signals
     Signal mem_read_data;
 	Signal alu_result;
 	Signal reg_write_mux_val;
-	Signal reg_read_index_1
-	Signal reg_read_index_2
+	Signal reg_read_index_1;
+	Signal reg_read_index_2;
 }Reg_Signals;
 struct Core;
 typedef struct Core Core;
