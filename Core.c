@@ -10,7 +10,7 @@ Core *initCore(Instruction_Memory *i_mem)
     core->tick = tickFunc;	
 	core->stages_complete = 0;
 	core->stages_after_last_PC = 0;
-	Signal	arbitrary_int = 9999;
+	//Signal	arbitrary_int = 9999;
 	for (int i = 0; i <(1024);i++)
 	{
 		core->data_mem[i] = 0;		
@@ -19,11 +19,9 @@ Core *initCore(Instruction_Memory *i_mem)
 	core->data_mem[48*8] = 63; // 40(x1) = 2 test	
 	core->reg_file[1] = 0;	 
 	 core->reg_file[0] = 0; 
-	 core->reg_file[2] = 10; //outbase
-	 core->reg_file[3] = -15; 
-	 core->reg_file[4] = 20; 
-	 core->reg_file[5] = 30; 
-	 core->reg_file[6] = -35; 
+	 core->reg_file[5] = 26; //outbase
+	 core->reg_file[6] = -27; 
+	 core->reg_file[40] = 100; 	 
     return core;
 }
 
@@ -42,10 +40,7 @@ bool tickFunc(Core *core)
 	if( (core->stages_complete < (num_instructions )))
 	{
 		core->IF_reg.PC = core->PC;
-		core->IF_reg.instruction = core->instr_mem->instructions[core->PC / 4].instruction;			
-		/* printf("+++++++++++++++++++++++++The IF_reg variables++++++++++++++++++++++++++++++++\n");
-		printf("%s = %ld\n",VariableName(core->PC),core->PC);
-		printf("%s = %ld\n",VariableName(core->IF_reg.instruction ),core->IF_reg.instruction ); */
+		core->IF_reg.instruction = core->instr_mem->instructions[core->PC / 4].instruction;					
 		core->PC = core->PC + 4;	
 	}
 	// <------------------------ ID Reg				
@@ -62,13 +57,7 @@ bool tickFunc(Core *core)
 		core->ID_reg.read_reg_val_1 = core->reg_file[(IF_reg_load.instruction >> (7 + 5 + 3)) & 31];
 		core->ID_reg.read_reg_val_2 = core->reg_file[(IF_reg_load.instruction >> (7 + 5 + 3 + 5)) & 31];		
 		core->ID_reg.imm_sign_extended = ImmeGen( input,IF_reg_load.instruction);;	//shifts the immediate?	
-		core->ID_reg.instruction = IF_reg_load.instruction;		
-		/* printf("+++++++++++++++++++++++++The ID_reg variables++++++++++++++++++++++++++++++++\n");
-		printf("%s = %ld\n",VariableName(IF_reg_load.instruction),IF_reg_load.instruction);
-		printf("%s = %d\n",VariableName(core->ID_reg.signals),core->ID_reg.signals);
-		printf("%s = %ld\n",VariableName(core->ID_reg.read_reg_val_1),core->ID_reg.read_reg_val_1);		
-		printf("%s = %ld\n",VariableName(core->ID_reg.read_reg_val_2),core->ID_reg.read_reg_val_2);				
-		printf("%s = %ld\n",VariableName(core->ID_reg.imm_sign_extended),core->ID_reg.imm_sign_extended);	 */	
+		core->ID_reg.instruction = IF_reg_load.instruction;				
 	}
 	core->M_reg.branch_address = WB_reg_load.branch_address;
 	core->E_reg.signals = ID_reg_load.signals;	
@@ -76,8 +65,13 @@ bool tickFunc(Core *core)
 	if( (core->stages_complete > 1 ) && (core->stages_complete < ( num_instructions + 2)))// Execute stage
 	{	
 		// <---------------------------------- Execute Reg 
+		//Signal alu_in_1 = MUX(ID_reg_load.signals.ALUSrc,ID_reg_load.read_reg_val_2,ID_reg_load.imm_sign_extended);
+		
+		Signal forward_A, forward_B; //<----------------------------------------------------------------------- change
 		Signal alu_in_1 = MUX(ID_reg_load.signals.ALUSrc,ID_reg_load.read_reg_val_2,ID_reg_load.imm_sign_extended);
+		//Signal alu_in_1 = MUX_3_to_1(forward_B,alu_in_1,WB_reg_load.reg_write_mux_val,M_reg_load.ALU_result);
 		alu_in_0 = ID_reg_load.read_reg_val_1;
+		//alu_in_0 = MUX_3_to_1(forward_A,alu_in_1,WB_reg_load.reg_write_mux_val,M_reg_load.ALU_result);
 		Signal func3 =( (ID_reg_load.instruction >> (7 + 5)) & 7);    
 		Signal func7 = ((ID_reg_load.instruction >> (7 + 5 + 3 + 5 + 5)) & 127);	
 		Signal ALU_ctrl_signal = ALUControlUnit(ID_reg_load.signals.ALUOp, func7, func3);		
@@ -115,12 +109,6 @@ bool tickFunc(Core *core)
 		{						
 			core->reg_file[M_reg_load.write_reg] = core->WB_reg.reg_write_mux_val;			
 		}
-		//printf("%s = %ld\n",VariableName(),);
-		//printf("+++++++++++++++++++++++++The WB _reg variables++++++++++++++++++++++++++++++++\n");
-		//printf("%s = %ld\n",VariableName(M_reg_load.signals.MemtoReg),M_reg_load.signals.MemtoReg);
-		//printf("%s = %ld\n",VariableName(M_reg_load.alu_result),M_reg_load.alu_result);
-		//printf("%s = %ld\n",VariableName(M_reg_load.signals.RegWrite),M_reg_load.signals.RegWrite);
-		//printf("%s = %ld\n",VariableName(core->WB_reg.reg_write_mux_val),core->WB_reg.reg_write_mux_val);
 	}
 	printf("--------------------------------------------\n");	
 	printf("Clock cycles = %d\n",core->stages_complete);	
@@ -413,4 +401,68 @@ Signal ShiftLeft1(Signal input)
  void regWrite(Signal MemWrite, Signal *data_mem, Signal data, Signal *address )
 {
 		
+}
+
+Signal MUX_3_to_1(Signal sel,
+           Signal input_0,
+           Signal input_1,
+		   Signal input_2)
+{
+    if (sel == 0)
+		 return input_0;
+	else if (sel == 1) 
+		 return input_1; 
+	else if (sel == 2) 
+		return input_2; 
+}
+
+Signal forwarding_unit(Signal *Forward_A,
+					Signal *Forward_B,
+					Signal Rs1,
+					Signal Rs2,
+					Reg_Signals IF_reg_load,
+					Reg_Signals ID_reg_load,
+					Reg_Signals E_reg_load,	
+					Reg_Signals M_reg_load ,
+					Reg_Signals WB_reg_load	)
+					
+{
+	
+	if (
+	(E_reg_load.signals.RegWrite == 0)
+	&&  (E_reg_load.write_reg != 0)
+	&&  (E_reg_load.write_reg == ID_reg_load.read_reg_val_1)
+	)
+	{
+		*ForwardA = 2;
+	}
+	
+	if(E_reg_load.RegWrite
+	&&  (E_reg_load.write_reg!= 0)
+	&&  (E_reg_load.write_reg == ID_reg_load.read_reg_val_2))
+	{
+		*ForwardB = 2; 
+	}
+	
+	if(M_reg_load.RegWrite &&
+	(M_reg_load.write_reg != 0) &&
+	~(E_reg_load.RegWrite && (E_reg_load.write_reg != 0)) &&
+	((E_reg_load.write_reg = ID_reg_load.read_reg_val_1)) &&
+	(M_reg_load.write_reg = ID_reg_load.read_reg_val_1)
+	)
+	{
+		*ForwardA = 1;
+	}
+	
+	if(M_reg_load.RegWrite &&
+	(M_reg_load.write_reg != 0) &&
+	~(E_reg_load.RegWrite && (E_reg_load.write_reg != 0)) &&
+	((E_reg_load.write_reg = ID_reg_load.read_reg_val_2)) &&
+	(M_reg_load.write_reg = ID_reg_load.read_reg_val_2)
+	)
+	{
+		*ForwardB = 1;
+	}
+		
+    
 }
