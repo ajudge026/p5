@@ -15,8 +15,8 @@ Core *initCore(Instruction_Memory *i_mem)
 	{
 		core->data_mem[i] = 0;		
 	}
-	Signal testing = 1;
-	if (testing == 1)
+	char testing[] = "no_load";
+	if (testing == "p4")
 	{
 		core->data_mem[40*8] = -63; // 40(x1) = -63,
 		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
@@ -28,7 +28,18 @@ Core *initCore(Instruction_Memory *i_mem)
 		core->reg_file[5] = 30; 
 		core->reg_file[6] = -35;
 	}
-	else
+	else if (testing == "no_load")
+	{
+		core->data_mem[40*8] = -63; // 40(x1) = -63,
+		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
+		core->reg_file[1] = 0;		
+		core->reg_file[0] = 0; 
+		core->reg_file[5] = 26; //outbase
+		core->reg_file[6] = -27; 
+		core->reg_file[40] = 100;
+		core->reg_file[2] = core->reg_file[40];		
+	}
+	else if (testing == "not_testing" )
 	{
 		core->data_mem[40*8] = -63; // 40(x1) = -63,
 		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
@@ -84,10 +95,13 @@ bool tickFunc(Core *core)
 		//Signal alu_in_1 = MUX(ID_reg_load.signals.ALUSrc,ID_reg_load.read_reg_val_2,ID_reg_load.imm_sign_extended);
 		
 		Signal forward_A, forward_B; //<----------------------------------------------------------------------- change
+		forwarding_unit(&Forward_A,
+					&Forward_B, IF_reg_load, ID_reg_load,
+				 E_reg_load, M_reg_load , WB_reg_load	)
 		Signal alu_in_1 = MUX(ID_reg_load.signals.ALUSrc,ID_reg_load.read_reg_val_2,ID_reg_load.imm_sign_extended);
-		//Signal alu_in_1 = MUX_3_to_1(forward_B,alu_in_1,WB_reg_load.reg_write_mux_val,M_reg_load.ALU_result);
+		Signal alu_in_1 = MUX_3_to_1(forward_B,alu_in_1,WB_reg_load.reg_write_mux_val,M_reg_load.ALU_result);
 		alu_in_0 = ID_reg_load.read_reg_val_1;
-		//alu_in_0 = MUX_3_to_1(forward_A,alu_in_1,WB_reg_load.reg_write_mux_val,M_reg_load.ALU_result);
+		alu_in_0 = MUX_3_to_1(forward_A,alu_in_1,WB_reg_load.reg_write_mux_val,M_reg_load.ALU_result);
 		Signal func3 =( (ID_reg_load.instruction >> (7 + 5)) & 7);    
 		Signal func7 = ((ID_reg_load.instruction >> (7 + 5 + 3 + 5 + 5)) & 127);	
 		Signal ALU_ctrl_signal = ALUControlUnit(ID_reg_load.signals.ALUOp, func7, func3);		
