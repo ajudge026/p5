@@ -85,6 +85,8 @@ bool tickFunc(Core *core)
 		//ControlSignals signals;
 		ControlUnit(IF_reg_load.instruction, input, &core->ID_reg.signals);	
 		core->ID_reg.write_reg = (IF_reg_load.instruction >> 7) & 31;
+		core->ID_reg.reg_read_index_1 = (IF_reg_load.instruction >> (7 + 5 + 3)) & 31
+		core->ID_reg.reg_read_index_2 = (IF_reg_load.instruction >> (7 + 5 + 3 + 5)) & 31		
 		core->ID_reg.read_reg_val_1 = core->reg_file[(IF_reg_load.instruction >> (7 + 5 + 3)) & 31];
 		core->ID_reg.read_reg_val_2 = core->reg_file[(IF_reg_load.instruction >> (7 + 5 + 3 + 5)) & 31];		
 		core->ID_reg.imm_sign_extended = ImmeGen( input,IF_reg_load.instruction);;	//shifts the immediate?	
@@ -465,11 +467,12 @@ Signal forwarding_unit(Signal *Forward_A,
 	
 		printf("%s = %ld\n",VariableName(E_reg_load.signals.RegWrite),E_reg_load.signals.RegWrite);
 		printf("%s = %ld\n",VariableName(E_reg_load.write_reg ),E_reg_load.write_reg );
-		printf("%s = %ld\n",VariableName(ID_reg_load.read_reg_val_1),ID_reg_load.read_reg_val_1);
+		printf("%s = %ld\n",VariableName(ID_reg_load.reg_read_index_1),ID_reg_load.reg_read_index_1);
+		printf("%s = %ld\n",VariableName(ID_reg_load.reg_read_index_2),ID_reg_load.reg_read_index_2);
 	if (
 	(E_reg_load.signals.RegWrite) &&
 	(E_reg_load.write_reg != 0) &&
-	(E_reg_load.write_reg == ID_reg_load.read_reg_val_1)
+	(E_reg_load.write_reg == ID_reg_load.reg_read_index_1)
 	)
 	{
 		*Forward_A = 2;
@@ -477,7 +480,7 @@ Signal forwarding_unit(Signal *Forward_A,
 	
 	if(E_reg_load.RegWrite &&
 	(E_reg_load.write_reg!= 0) && 
-	(E_reg_load.write_reg == ID_reg_load.read_reg_val_2))
+	(E_reg_load.write_reg == ID_reg_load.reg_read_index_2))
 	{
 		*Forward_B = 2; 
 	}	
