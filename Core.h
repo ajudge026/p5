@@ -124,5 +124,21 @@ Signal Add(Signal input_0,
 // (6). ShiftLeft1
 Signal ShiftLeft1(Signal input);
 
+Signal MUX_3_to_1(Signal sel,
+           Signal input_0,
+           Signal input_1,
+		   Signal input_2);
+
+Signal forwarding_unit(Signal *Forward_A,
+					Signal *Forward_B,
+					Signal Rs1,
+					Signal Rs2,
+					Reg_Signals IF_reg_load,
+					Reg_Signals ID_reg_load,
+					Reg_Signals E_reg_load,	
+					Reg_Signals M_reg_load ,
+					Reg_Signals WB_reg_load	);
+					
+
 #endif
 
