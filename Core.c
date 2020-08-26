@@ -494,8 +494,8 @@ Signal forwarding_unit(Signal *Forward_A,
 	 if(M_reg_load.signals.RegWrite &&
 	(M_reg_load.write_reg != 0) &&
 	~(E_reg_load.RegWrite && (E_reg_load.write_reg != 0)) &&
-	((E_reg_load.write_reg = ID_reg_load.reg_read_index_1)) &&
-	(M_reg_load.write_reg = ID_reg_load.reg_read_index_1)
+	((E_reg_load.write_reg == ID_reg_load.reg_read_index_1)) &&
+	(M_reg_load.write_reg == ID_reg_load.reg_read_index_1)
 	)
 	{
 		*Forward_A = 1;
@@ -504,8 +504,8 @@ Signal forwarding_unit(Signal *Forward_A,
 	if(M_reg_load.signals.RegWrite &&
 	(M_reg_load.write_reg != 0) &&
 	(~(E_reg_load.RegWrite && (E_reg_load.write_reg != 0))) &&
-	((E_reg_load.write_reg = ID_reg_load.reg_read_index_2)) &&
-	(M_reg_load.write_reg = ID_reg_load.reg_read_index_2)
+	((E_reg_load.write_reg == ID_reg_load.reg_read_index_2)) &&
+	(M_reg_load.write_reg == ID_reg_load.reg_read_index_2)
 	)
 	{
 		*Forward_B = 1;
