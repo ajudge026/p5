@@ -37,7 +37,10 @@ Core *initCore(Instruction_Memory *i_mem)
 		core->reg_file[5] = 26; //outbase
 		core->reg_file[6] = -27; 
 		core->reg_file[40] = 100;
-		core->reg_file[2] = core->reg_file[40];		
+		core->reg_file[2] = core->reg_file[40];	
+	printf("%s = %ld\n",VariableName(core->reg_file[2]),core->reg_file[2] );
+	printf("%s = %s\n",VariableName(testing),testing);
+		
 	}
 	else if (testing == "not_testing" )
 	{
