@@ -16,6 +16,7 @@ Core *initCore(Instruction_Memory *i_mem)
 		core->data_mem[i] = 0;		
 	}
 	char testing[] = "no_load";
+	printf("%s = %s\n",VariableName(testing),testing);
 	if (testing == "p4")
 	{
 		core->data_mem[40*8] = -63; // 40(x1) = -63,
