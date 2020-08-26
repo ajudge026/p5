@@ -114,6 +114,8 @@ bool tickFunc(Core *core)
 		alu_in_1 = MUX_3_to_1(Forward_B,alu_in_1,M_reg_load.reg_write_mux_val,E_reg_load.alu_result);
 		alu_in_0 = ID_reg_load.read_reg_val_1;
 		alu_in_0 = MUX_3_to_1(Forward_A,alu_in_0,M_reg_load.reg_write_mux_val,E_reg_load.alu_result);
+		printf("%s = %ld\n",VariableName(alu_in_0),alu_in_0);
+		printf("%s = %ld\n",VariableName(alu_in_1),alu_in_1);
 		Signal func3 =( (ID_reg_load.instruction >> (7 + 5)) & 7);    
 		Signal func7 = ((ID_reg_load.instruction >> (7 + 5 + 3 + 5 + 5)) & 127);	
 		Signal ALU_ctrl_signal = ALUControlUnit(ID_reg_load.signals.ALUOp, func7, func3);		
