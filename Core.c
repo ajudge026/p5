@@ -144,6 +144,7 @@ bool tickFunc(Core *core)
 			core->data_mem[8*E_reg_load.alu_result] = E_reg_load.read_reg_val_2;		
 		}
 		core->M_reg.write_reg = E_reg_load.write_reg;		
+		core->M_reg.reg_write_mux_val = MUX(E_reg_load.signals.MemtoReg, E_reg_load.alu_result, E_reg_load.mem_read_data);
 	}	
 	//<------------- WB Reg			
 	if( (core->stages_complete > 3) && (core->stages_complete < num_instructions + 4 ) )
