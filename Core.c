@@ -67,11 +67,11 @@ bool tickFunc(Core *core)
 	Reg_Signals E_reg_load = core->E_reg;	
 	Reg_Signals M_reg_load = core->M_reg;		
 	Reg_Signals WB_reg_load = core->WB_reg;	
-	printf("%s = %ld\n",VariableName(IF_reg_load.write_reg),ID_reg_load.write_reg);
+	/* printf("%s = %ld\n",VariableName(IF_reg_load.write_reg),ID_reg_load.write_reg);
 	printf("%s = %ld\n",VariableName(ID_reg_load.write_reg),ID_reg_load.write_reg);
 	printf("%s = %ld\n",VariableName(E_reg_load.write_reg),E_reg_load.write_reg);
 	printf("%s = %ld\n",VariableName(M_reg_load.write_reg),M_reg_load.write_reg);
-	printf("%s = %ld\n",VariableName(WB_reg_load.write_reg),WB_reg_load.write_reg);
+	printf("%s = %ld\n",VariableName(WB_reg_load.write_reg),WB_reg_load.write_reg); */
 	Signal num_instructions = (core->instr_mem->last->addr /4) + 1;	
 	if( (core->stages_complete < (num_instructions )))
 	{
