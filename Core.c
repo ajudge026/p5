@@ -460,7 +460,7 @@ Signal forwarding_unit(Signal *Forward_A,
 {
 	
 	if (
-	(E_reg_load.signals.RegWrite == 0) &&
+	(E_reg_load.signals.RegWrite) &&
 	(E_reg_load.write_reg != 0) &&
 	(E_reg_load.write_reg == ID_reg_load.read_reg_val_1)
 	)
@@ -475,9 +475,9 @@ Signal forwarding_unit(Signal *Forward_A,
 		*Forward_B = 2; 
 	}
 	
-	if(M_reg_load.RegWrite &&
+	/* if(M_reg_load.RegWrite &&
 	(M_reg_load.write_reg != 0) &&
-	~(E_reg_load.RegWrite && (E_reg_load.write_reg != 0)) &&
+	~(E_ reg_load.RegWrite && (E_reg_load.write_reg != 0)) &&
 	((E_reg_load.write_reg = ID_reg_load.read_reg_val_1)) &&
 	(M_reg_load.write_reg = ID_reg_load.read_reg_val_1)
 	)
@@ -493,7 +493,7 @@ Signal forwarding_unit(Signal *Forward_A,
 	)
 	{
 		*Forward_B = 1;
-	}
+	} */
 		
     
 }
