@@ -15,13 +15,28 @@ Core *initCore(Instruction_Memory *i_mem)
 	{
 		core->data_mem[i] = 0;		
 	}
-	core->data_mem[40*8] = -63; // 40(x1) = -63,
-	core->data_mem[48*8] = 63; // 40(x1) = 2 test	
-	core->reg_file[1] = 0;	 
-	 core->reg_file[0] = 0; 
-	 core->reg_file[5] = 26; //outbase
-	 core->reg_file[6] = -27; 
-	 core->reg_file[40] = 100; 	 
+	Signal testing == 1;
+	if testing = 1	{
+		core->data_mem[40*8] = -63; // 40(x1) = -63,
+		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
+		core->reg_file[1] = 0;	 
+		core->reg_file[0] = 0; 
+		core->reg_file[2] = 10; //outbase
+		core->reg_file[3] = -15; 
+		core->reg_file[4] = 20; 
+		core->reg_file[5] = 30; 
+		core->reg_file[6] = -35;
+	}
+	else
+	{
+		core->data_mem[40*8] = -63; // 40(x1) = -63,
+		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
+		core->reg_file[1] = 0;	 
+		core->reg_file[0] = 0; 
+		core->reg_file[5] = 26; //outbase
+		core->reg_file[6] = -27; 
+		core->reg_file[40] = 100; 
+	}
     return core;
 }
 
