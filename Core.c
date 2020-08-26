@@ -106,11 +106,10 @@ bool tickFunc(Core *core)
 				 E_reg_load, M_reg_load , WB_reg_load	); 
 		printf("%s = %ld\n",VariableName(Forward_A),Forward_A);
 		printf("%s = %ld\n",VariableName(Forward_B),Forward_B);
-		Signal alu_in_1 = MUX(ID_reg_load.signals.ALUSrc,ID_reg_load.read_reg_val_2,ID_reg_load.imm_sign_extended);
-		
+		Signal alu_in_1 = MUX(ID_reg_load.signals.ALUSrc,ID_reg_load.read_reg_val_2,ID_reg_load.imm_sign_extended);		
 		alu_in_1 = MUX_3_to_1(Forward_B,alu_in_1,WB_reg_load.reg_write_mux_val,M_reg_load.alu_result);
 		alu_in_0 = ID_reg_load.read_reg_val_1;
-		alu_in_0 = MUX_3_to_1(Forward_A,alu_in_1,WB_reg_load.reg_write_mux_val,M_reg_load.alu_result);
+		alu_in_0 = MUX_3_to_1(Forward_A,alu_in_0,WB_reg_load.reg_write_mux_val,M_reg_load.alu_result);
 		Signal func3 =( (ID_reg_load.instruction >> (7 + 5)) & 7);    
 		Signal func7 = ((ID_reg_load.instruction >> (7 + 5 + 3 + 5 + 5)) & 127);	
 		Signal ALU_ctrl_signal = ALUControlUnit(ID_reg_load.signals.ALUOp, func7, func3);		
