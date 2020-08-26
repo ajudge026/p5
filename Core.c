@@ -99,9 +99,9 @@ bool tickFunc(Core *core)
 		//Signal alu_in_1 = MUX(ID_reg_load.signals.ALUSrc,ID_reg_load.read_reg_val_2,ID_reg_load.imm_sign_extended);
 		
 		Signal Forward_A, Forward_B; //<----------------------------------------------------------------------- change
-		/* forwarding_unit(&Forward_A,
+		 forwarding_unit(&Forward_A,
 					&Forward_B, IF_reg_load, ID_reg_load,
-				 E_reg_load, M_reg_load , WB_reg_load	); */
+				 E_reg_load, M_reg_load , WB_reg_load	); 
 		Signal alu_in_1 = MUX(ID_reg_load.signals.ALUSrc,ID_reg_load.read_reg_val_2,ID_reg_load.imm_sign_extended);
 		//alu_in_1 = MUX_3_to_1(Forward_B,alu_in_1,WB_reg_load.reg_write_mux_val,M_reg_load.alu_result);
 		alu_in_0 = ID_reg_load.read_reg_val_1;
