@@ -85,8 +85,8 @@ bool tickFunc(Core *core)
 		//ControlSignals signals;
 		ControlUnit(IF_reg_load.instruction, input, &core->ID_reg.signals);	
 		core->ID_reg.write_reg = (IF_reg_load.instruction >> 7) & 31;
-		core->ID_reg.reg_read_index_1 = (IF_reg_load.instruction >> (7 + 5 + 3)) & 31
-		core->ID_reg.reg_read_index_2 = (IF_reg_load.instruction >> (7 + 5 + 3 + 5)) & 31		
+		core->ID_reg.reg_read_index_1 = (IF_reg_load.instruction >> (7 + 5 + 3)) & 31;
+		core->ID_reg.reg_read_index_2 = (IF_reg_load.instruction >> (7 + 5 + 3 + 5)) & 31;
 		core->ID_reg.read_reg_val_1 = core->reg_file[(IF_reg_load.instruction >> (7 + 5 + 3)) & 31];
 		core->ID_reg.read_reg_val_2 = core->reg_file[(IF_reg_load.instruction >> (7 + 5 + 3 + 5)) & 31];		
 		core->ID_reg.imm_sign_extended = ImmeGen( input,IF_reg_load.instruction);;	//shifts the immediate?	
