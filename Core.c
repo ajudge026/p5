@@ -463,11 +463,7 @@ Signal forwarding_unit(Signal *Forward_A,
 					
 {
 	*Forward_A, *Forward_B =0 ;
-	
-		printf("%s = %ld\n",VariableName(E_reg_load.signals.RegWrite),E_reg_load.signals.RegWrite);
-		printf("%s = %ld\n",VariableName(E_reg_load.write_reg ),E_reg_load.write_reg );
-		printf("%s = %ld\n",VariableName(ID_reg_load.reg_read_index_1),ID_reg_load.reg_read_index_1);
-		printf("%s = %ld\n",VariableName(ID_reg_load.reg_read_index_2),ID_reg_load.reg_read_index_2);
+
 	if (
 	(E_reg_load.signals.RegWrite) &&
 	(E_reg_load.write_reg != 0) &&
@@ -478,7 +474,7 @@ Signal forwarding_unit(Signal *Forward_A,
 	}
 	
 	if(E_reg_load.signals.RegWrite &&
-	(E_reg_load.write_reg!= 0) && 
+	(E_reg_load.write_reg != 0) && 
 	(E_reg_load.write_reg == ID_reg_load.reg_read_index_2))
 	{
 		*Forward_B = 2; 
