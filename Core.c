@@ -15,8 +15,9 @@ Core *initCore(Instruction_Memory *i_mem)
 	{
 		core->data_mem[i] = 0;		
 	}
-	Signal testing == 1;
-	if testing = 1	{
+	Signal testing = 1;
+	if (testing == 1)
+	{
 		core->data_mem[40*8] = -63; // 40(x1) = -63,
 		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
 		core->reg_file[1] = 0;	 
