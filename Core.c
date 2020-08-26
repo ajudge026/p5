@@ -510,7 +510,7 @@ Signal forwarding_unit(Signal *Forward_A,
 	{
 		*Forward_B = 1;
 	}  	
-	Signal logic_var = M_reg_load.signals.RegWrite && (M_reg_load.write_reg != 0) && (~(E_reg_load.RegWrite && (E_reg_load.write_reg != 0)));
+	Signal logic_var = M_reg_load.signals.RegWrite && (M_reg_load.write_reg != 0) && (~(E_reg_load.RegWrite && (E_reg_load.write_reg != 0)) && ((E_reg_load.write_reg == ID_reg_load.reg_read_index_2)));
 	printf("%s = %ld\n",VariableName(logic_var),logic_var);
 		
     
