@@ -143,11 +143,10 @@ bool tickFunc(Core *core)
 	printf("--------------------------------------------\n");	
 	printf("Clock cycles = %d\n",core->stages_complete);	
 	printf("REG FILES\n");	
-	printf("%s = %ld\n",VariableName(core->reg_file[10]),core->reg_file[10] );
-	printf("%s = %ld\n",VariableName(core->reg_file[11]),core->reg_file[11] );
-	printf("%s = %ld\n",VariableName(core->reg_file[12]),core->reg_file[12] );
-	printf("%s = %ld\n",VariableName(core->reg_file[13]),core->reg_file[13] );
-	printf("%s = %ld\n",VariableName(core->reg_file[14]),core->reg_file[14] );
+	printf("%s = %ld\n",VariableName(core->reg_file[2]),core->reg_file[2] );
+	printf("%s = %ld\n",VariableName(core->reg_file[4]),core->reg_file[4] );
+	printf("%s = %ld\n",VariableName(core->reg_file[8]),core->reg_file[8] );
+	printf("%s = %ld\n",VariableName(core->reg_file[9]),core->reg_file[9] );
 	printf("%s = %ld\n",VariableName(core->PC),core->PC );
 	++core->stages_complete;
     ++core->clk;
