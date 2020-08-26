@@ -17,7 +17,7 @@ Core *initCore(Instruction_Memory *i_mem)
 	}
 	char testing[] = "no_load";
 	printf("%s = %s\n",VariableName(testing),testing);
-	if (testing == "p4")
+	if (strcmp(testing, "p4") == 0)
 	{
 		core->data_mem[40*8] = -63; // 40(x1) = -63,
 		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
@@ -29,7 +29,7 @@ Core *initCore(Instruction_Memory *i_mem)
 		core->reg_file[5] = 30; 
 		core->reg_file[6] = -35;
 	}
-	else if (testing == "no_load")
+	else if (strcmp(testing, "no_load") == 0)
 	{
 		core->data_mem[40*8] = -63; // 40(x1) = -63,
 		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
@@ -43,7 +43,7 @@ Core *initCore(Instruction_Memory *i_mem)
 	printf("%s = %s\n",VariableName(testing),testing);
 		
 	}
-	else if (testing == "not_testing" )
+	else if  (strcmp(testing, "not_testing") == 0)
 	{
 		core->data_mem[40*8] = -63; // 40(x1) = -63,
 		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
