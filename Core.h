@@ -131,8 +131,6 @@ Signal MUX_3_to_1(Signal sel,
 
 Signal forwarding_unit(Signal *Forward_A,
 					Signal *Forward_B,
-					Signal Rs1,
-					Signal Rs2,
 					Reg_Signals IF_reg_load,
 					Reg_Signals ID_reg_load,
 					Reg_Signals E_reg_load,	
