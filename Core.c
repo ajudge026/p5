@@ -103,6 +103,7 @@ bool tickFunc(Core *core)
 					&Forward_B, IF_reg_load, ID_reg_load,
 				 E_reg_load, M_reg_load , WB_reg_load	); 
 		Signal alu_in_1 = MUX(ID_reg_load.signals.ALUSrc,ID_reg_load.read_reg_val_2,ID_reg_load.imm_sign_extended);
+		
 		alu_in_1 = MUX_3_to_1(Forward_B,alu_in_1,WB_reg_load.reg_write_mux_val,M_reg_load.alu_result);
 		alu_in_0 = ID_reg_load.read_reg_val_1;
 		alu_in_0 = MUX_3_to_1(Forward_A,alu_in_1,WB_reg_load.reg_write_mux_val,M_reg_load.alu_result);
@@ -458,7 +459,7 @@ Signal forwarding_unit(Signal *Forward_A,
 					Reg_Signals WB_reg_load	)
 					
 {
-	
+	*Forward_A, *Forward_B =0 ;
 	if (
 	(E_reg_load.signals.RegWrite) &&
 	(E_reg_load.write_reg != 0) &&
