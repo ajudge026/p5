@@ -41,7 +41,8 @@ bool tickFunc(Core *core)
 					&M_reg_load ,
 					&WB_reg_load); 
 	core->ID_reg.noop_control = PC_Control;
-	printf("%s = %ld\n",VariableName(PC_Control),PC_Control);	
+	printf("%s = %ld\n",VariableName(PC_Control),PC_Control);
+	printf("%s = %ld\n",VariableName(PC_Control),PC_Control );	
 	if(PC_Control != 0) 
 		{
 			core->PC = core->PC - 4 ;
@@ -90,8 +91,6 @@ bool tickFunc(Core *core)
 		
 		Signal Forward_A, Forward_B; //<----------------------------------------------------------------------- change
 		 forwarding_unit(&Forward_A,&Forward_B,IF_reg_load,ID_reg_load,E_reg_load,M_reg_load,WB_reg_load); 
-		printf("%s = %ld\n",VariableName(Forward_A),Forward_A);
-		printf("%s = %ld\n",VariableName(Forward_B),Forward_B);
 		Signal alu_in_1 = MUX(ID_reg_load.signals.ALUSrc,ID_reg_load.read_reg_val_2,ID_reg_load.imm_sign_extended);		
 		alu_in_1 = MUX_3_to_1(Forward_B,alu_in_1,M_reg_load.reg_write_mux_val,E_reg_load.alu_result);
 		alu_in_0 = ID_reg_load.read_reg_val_1;
@@ -153,8 +152,6 @@ bool tickFunc(Core *core)
 	printf("%s = %ld\n",VariableName(core->E_reg.instr_num),core->E_reg.instr_num);		
 	printf("%s = %ld\n",VariableName(core->M_reg.instr_num),core->M_reg.instr_num);		
 	printf("%s = %ld\n",VariableName(core->WB_reg.instr_num),core->WB_reg.instr_num);		
-	printf("%s = %ld\n",VariableName(alu_in_1),alu_in_1);		
-	printf("%s = %ld\n",VariableName(alu_in_0),alu_in_0);		
 	printf("%s = %ld\n",VariableName(ID_reg_load.imm_sign_extended),ID_reg_load.imm_sign_extended);		
 	printf("%s = %ld\n",VariableName(ID_reg_load.signals.ALUSrc),ID_reg_load.signals.ALUSrc);		
 	printf("REG FILES\n");	
