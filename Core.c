@@ -20,8 +20,8 @@ Core *initCore(Instruction_Memory *i_mem)
 	printf("%s = %s\n",VariableName(testing),testing);
 	testing_function(testing,  core);
 	printf("printing the initialized registers \n");
-	printf("%ld = %ld\n",VariableName(core->reg_file[2] ),core->reg_file[2] );
-	printf("%ld = %ld\n",VariableName(core->reg_file[5] ),core->reg_file[5] );
+	printf("%s = %ld\n",VariableName(core->reg_file[2] ),core->reg_file[2] );
+	printf("%s = %ld\n",VariableName(core->reg_file[5] ),core->reg_file[5] );
 	return core;
 }
 
