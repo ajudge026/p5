@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #define VariableName(name) #name
-
+#include <string.h>
 #define BOOL bool
 
 typedef uint8_t Byte;

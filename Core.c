@@ -33,11 +33,18 @@ bool tickFunc(Core *core)
 	Reg_Signals M_reg_load = core->M_reg;		
 	Reg_Signals WB_reg_load = core->WB_reg;	
 	Signal num_instructions = (core->instr_mem->last->addr /4) + 1;	
+	Signal PC_Control = 0;
+	/* hazard_unit(	 &PC_Control,
+					&IF_reg_load,
+					&ID_reg_load,
+					&E_reg_load,	
+					&M_reg_load ,
+					&WB_reg_load); */
 	if( (core->stages_complete < (num_instructions )))
 	{
 		core->IF_reg.PC = core->PC;
 		core->IF_reg.instruction = core->instr_mem->instructions[core->PC / 4].instruction;					
-		core->PC = core->PC + 4;	
+		if(PC_Control == 0)core->PC = core->PC + 4;	
 	}
 	// <------------------------ ID Reg				
 	Signal alu_in_0, alu_in_1;	
