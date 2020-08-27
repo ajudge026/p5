@@ -495,18 +495,18 @@ void hazard_unit(	Signal *PC_Control,
 					Reg_Signals *WB_reg_load
 )
 {
-	if (*ID_reg_load.signals->MemRead &&
-	((*ID_reg_load->write_reg== *IF_reg_load->reg_read_index_1) ||
-	(*ID_reg_load->write_reg == *IF_reg_load->reg_read_index_2)))
+	if (ID_reg_load.signals->MemRead &&
+	((ID_reg_load->write_reg== IF_reg_load->reg_read_index_1) ||
+	(ID_reg_load->write_reg == IF_reg_load->reg_read_index_2)))
 	{       
         //printf("bne\n"); 
-		*E_reg_load->signals->ALUSrc = 0;		
-        *E_reg_load->signals->MemtoReg = 0; 
-        *E_reg_load->signals->RegWrite = 0;
-        *E_reg_load->signals->MemRead = 0;
-        *E_reg_load->signals->MemWrite = 0;
-        *E_reg_load->signals->Branch = 0;
-        *E_reg_load->signals->ALUOp = 0;    
+		E_reg_load->signals->ALUSrc = 0;		
+        E_reg_load->signals->MemtoReg = 0; 
+        E_reg_load->signals->RegWrite = 0;
+        E_reg_load->signals->MemRead = 0;
+        E_reg_load->signals->MemWrite = 0;
+        E_reg_load->signals->Branch = 0;
+        E_reg_load->signals->ALUOp = 0;    
 		
 		*PC_Control = 1;
 	}
