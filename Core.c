@@ -41,12 +41,7 @@ bool tickFunc(Core *core)
 					&M_reg_load ,
 					&WB_reg_load); 
 	core->ID_reg.noop_control = PC_Control;
-	printf("%s = %ld\n",VariableName(PC_Control),PC_Control);
-	printf("%s = %ld\n",VariableName(core->IF_reg.noop_control),core->IF_reg.noop_control);
-	printf("(((((((((((( noop controls start)))))))))))))))))))))\n");	
-	printf("%s = %ld\n",VariableName(ID_reg_load.noop_control),ID_reg_load.noop_control);
-	printf("%s = %ld\n",VariableName(E_reg_load.noop_control),E_reg_load.noop_control);	
-	printf("(((((((((((( noop controls end )))))))))))))))))))))\n");	
+	printf("%s = %ld\n",VariableName(PC_Control),PC_Control);	
 	if( (core->stages_complete < (num_instructions )))
 	{
 		if(PC_Control == 0)core->PC = core->PC + 4;	
@@ -66,8 +61,8 @@ bool tickFunc(Core *core)
 		//ControlSignals signals;
 		printf("initial write reg : %s = %ld\n",VariableName(ID_reg_load.noop_control),ID_reg_load.noop_control);
 		ControlUnit(IF_reg_load.instruction, input, ID_reg_load.noop_control, &core->ID_reg.signals);	
-		core->ID_reg.write_reg = (IF_reg_load.instruction >> 7) & 31;
-		//printf("initial write reg : %s = %ld\n",VariableName(core->ID_reg.write_reg),core->ID_reg.write_reg);
+		printf("initial write reg : %s = %ld\n",VariableName(core->ID_reg.signals.MemRead),core->ID_reg.signals.MemRead);
+		core->ID_reg.write_reg = (IF_reg_load.instruction >> 7) & 31;		
 		core->ID_reg.reg_read_index_1 = (IF_reg_load.instruction >> (7 + 5 + 3)) & 31;
 		core->ID_reg.reg_read_index_2 = (IF_reg_load.instruction >> (7 + 5 + 3 + 5)) & 31;
 		core->ID_reg.read_reg_val_1 = core->reg_file[(IF_reg_load.instruction >> (7 + 5 + 3)) & 31];
