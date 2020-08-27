@@ -148,5 +148,7 @@ void hazard_unit(	Signal *PC_Control,
 );	
 					
 void testing_function(char testing[], Core *core);
+
+void printf_varname(Signal var);
 #endif
 
