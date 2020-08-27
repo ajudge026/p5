@@ -51,8 +51,8 @@ bool tickFunc(Core *core)
 	{
 		if(PC_Control == 0) core->IF_reg.PC = core->PC; else core->IF_reg.PC = core->PC - 4;
 		core->IF_reg.instruction = core->instr_mem->instructions[core->PC / 4].instruction;	
-		 core->ID_reg.reg_read_index_1 = (core->IF_reg.instruction >> (7 + 5 + 3)) & 31;
-		core->ID_reg.reg_read_index_2 = (core->IF_reg.instruction >> (7 + 5 + 3 + 5)) & 31;
+		 core->IF_reg.reg_read_index_1 = (core->IF_reg.instruction >> (7 + 5 + 3)) & 31;
+		core->IF_reg.reg_read_index_2 = (core->IF_reg.instruction >> (7 + 5 + 3 + 5)) & 31;
 		if(PC_Control == 0)core->PC = core->PC + 4;	
 	}
 	// <------------------------ ID Reg				
