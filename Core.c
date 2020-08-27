@@ -47,11 +47,6 @@ bool tickFunc(Core *core)
 	printf("%s = %ld\n",VariableName(ID_reg_load.noop_control),ID_reg_load.noop_control);
 	printf("%s = %ld\n",VariableName(E_reg_load.noop_control),E_reg_load.noop_control);	
 	printf("(((((((((((( noop controls end )))))))))))))))))))))\n");	
-	printf("%s = %ld\n",VariableName(),);	
-	printf("%s = %ld\n",VariableName(),);	
-	printf("%s = %ld\n",VariableName(),);	
-	
-	
 	if( (core->stages_complete < (num_instructions )))
 	{
 		core->IF_reg.PC = core->PC;
