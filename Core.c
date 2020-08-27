@@ -127,7 +127,7 @@ bool tickFunc(Core *core)
 		core->M_reg.reg_write_mux_val = MUX(E_reg_load.signals.MemtoReg, E_reg_load.alu_result, E_reg_load.mem_read_data);
 	}	
 	//<------------- WB Reg			
-	core->WB_reg.noop_control = core->M_reg_load.noop_control;
+	core->WB_reg.noop_control = M_reg_load.noop_control;
 		printf("%s = %ld\n",VariableName(M_reg_load.signals.RegWrite),M_reg_load.signals.RegWrite);
 	if( (core->stages_complete > 3) && (core->stages_complete < num_instructions + 4 ) &&  (WB_reg_load.noop_control == 0))
 	{		
