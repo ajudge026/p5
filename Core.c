@@ -51,6 +51,7 @@ bool tickFunc(Core *core)
 	{		
 		core->IF_reg.PC = core->PC; 		
 		core->IF_reg.instruction = core->instr_mem->instructions[core->PC / 4].instruction;	
+		core->IF_reg.instr_num = core->IF_reg.PC /4;
 		printf("%s = %ld\n",VariableName(core->PC),core->PC );
 		core->PC = core->PC + 4;	
 		 core->IF_reg.reg_read_index_1 = (core->IF_reg.instruction >> (7 + 5 + 3)) & 31;
@@ -58,6 +59,7 @@ bool tickFunc(Core *core)
 	}
 	// <------------------------ ID Reg				
 	Signal alu_in_0, alu_in_1;	
+	core->ID_reg.instr_num = IF_reg_load.instr_num ;
 	core->ID_reg.PC = IF_reg_load.PC;
 	core->E_reg.branch_address = M_reg_load.branch_address;
 	if( (core->stages_complete >  0) && (core->stages_complete < (num_instructions + 1)) )
@@ -80,6 +82,7 @@ bool tickFunc(Core *core)
 	core->E_reg.signals = ID_reg_load.signals;	
 	core->E_reg.read_reg_val_2 = ID_reg_load.read_reg_val_2;
 	core->E_reg.noop_control = 	ID_reg_load.noop_control;
+	core->E_reg.instr_num = ID_reg_load.instr_num ;
 	if( (core->stages_complete > 1 ) && (core->stages_complete < ( num_instructions + 2)) && (E_reg_load.noop_control == 0))// Execute stage
 	{	
 		// <---------------------------------- Execute Reg 
@@ -105,6 +108,7 @@ bool tickFunc(Core *core)
 	Signal mem_result;
 	core->M_reg.signals = E_reg_load.signals;	
 	core->M_reg.noop_control = 	E_reg_load.noop_control;
+	core->M_reg.instr_num = E_reg_load.instr_num ;
 	if( (core->stages_complete > 2) && (core->stages_complete < num_instructions + 3) && (M_reg_load.noop_control == 0))
 	{
 		// <------------------------ M Reg
@@ -127,6 +131,7 @@ bool tickFunc(Core *core)
 		core->M_reg.reg_write_mux_val = MUX(E_reg_load.signals.MemtoReg, E_reg_load.alu_result, E_reg_load.mem_read_data);
 	}	
 	//<------------- WB Reg			
+	core->WB_reg.instr_num = M_reg_load.instr_num;
 	core->WB_reg.noop_control = M_reg_load.noop_control;
 		printf("%s = %ld\n",VariableName(M_reg_load.signals.RegWrite),M_reg_load.signals.RegWrite);
 	if( (core->stages_complete > 3) && (core->stages_complete < num_instructions + 4 ) &&  (WB_reg_load.noop_control == 0))
@@ -141,6 +146,11 @@ bool tickFunc(Core *core)
 	printf("%s = %ld\n",VariableName(M_reg_load.signals.RegWrite),M_reg_load.signals.RegWrite);
 	printf("%s = %ld\n",VariableName(core->WB_reg.reg_write_mux_val),core->WB_reg.reg_write_mux_val);		
 	printf("%s = %ld\n",VariableName(E_reg_load.alu_result),E_reg_load.alu_result);		
+	printf("%s = %ld\n",VariableName(core->IF_reg.instr_num),core->IF_reg.instr_num);		
+	printf("%s = %ld\n",VariableName(core->ID_reg.instr_num),core->ID_reg.instr_num);		
+	printf("%s = %ld\n",VariableName(core->E_reg.instr_num),core->E_reg.instr_num);		
+	printf("%s = %ld\n",VariableName(core->M_reg.instr_num),core->M_reg.instr_num);		
+	printf("%s = %ld\n",VariableName(core->WB_reg.instr_num),core->WB_reg.instr_num);		
 	printf("REG FILES\n");	
 	printf("%s = %ld\n",VariableName(core->reg_file[2]),core->reg_file[2] );
 	printf("%s = %ld\n",VariableName(core->reg_file[4]),core->reg_file[4] );
