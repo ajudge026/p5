@@ -140,7 +140,7 @@ bool tickFunc(Core *core)
 	printf("Clock cycles = %d\n",core->stages_complete);	
 	printf("%s = %ld\n",VariableName(M_reg_load.signals.RegWrite),M_reg_load.signals.RegWrite);
 	printf("%s = %ld\n",VariableName(core->WB_reg.reg_write_mux_val),core->WB_reg.reg_write_mux_val);		
-	printf("%s = %ld\n",VariableName(alu_result),alu_result);		
+	printf("%s = %ld\n",VariableName(E_reg_load.alu_result),E_reg_load.alu_result);		
 	printf("REG FILES\n");	
 	printf("%s = %ld\n",VariableName(core->reg_file[2]),core->reg_file[2] );
 	printf("%s = %ld\n",VariableName(core->reg_file[4]),core->reg_file[4] );
