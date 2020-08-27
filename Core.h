@@ -96,10 +96,8 @@ Core *initCore(Instruction_Memory *i_mem);
 bool tickFunc(Core *core);
 
 
-void ControlUnit(unsigned instruction, 
-				Signal input,
+void ControlUnit(unsigned instruction, Signal input, Signal noop_control,
                  ControlSignals *signals);
-
 // FIXME (2). ALU Control Unit.
 Signal ALUControlUnit(Signal ALUOp,
                       Signal Funct7,

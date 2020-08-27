@@ -40,7 +40,7 @@ bool tickFunc(Core *core)
 					&E_reg_load,	
 					&M_reg_load ,
 					&WB_reg_load); 
-	Signal core->IF_reg.noop_control = PC_Control;
+	core->IF_reg.noop_control = PC_Control;
 	
 	if( (core->stages_complete < (num_instructions )))
 	{
