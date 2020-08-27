@@ -513,6 +513,11 @@ void hazard_unit(	Signal *PC_Control,
 					Reg_Signals *WB_reg_load
 )
 {
+	
+	printf("%s = %ld\n",VariableName(ID_reg_load->signals.MemRead),ID_reg_load->signals.MemRead);
+	printf("%s = %ld\n",VariableName(ID_reg_load->write_reg),ID_reg_load->write_reg);
+	printf("%s = %ld\n",VariableName(IF_reg_load->reg_read_index_1),IF_reg_load->reg_read_index_1);
+	printf("%s = %ld\n",VariableName(IF_reg_load->reg_read_index_2),IF_reg_load->reg_read_index_2);
 	if (ID_reg_load->signals.MemRead &&
 	((ID_reg_load->write_reg== IF_reg_load->reg_read_index_1) ||
 	(ID_reg_load->write_reg == IF_reg_load->reg_read_index_2)))
