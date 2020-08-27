@@ -1,6 +1,5 @@
 #include "Core.h"
 #include<math.h>
-#include <string.h>
 
 Core *initCore(Instruction_Memory *i_mem)
 {
@@ -18,11 +17,43 @@ Core *initCore(Instruction_Memory *i_mem)
 	}
 	char testing[] = "no_load";
 	printf("%s = %s\n",VariableName(testing),testing);
-	testing_function(testing,  core);
-	printf("printing the initialized registers \n");
-	printf("%s = %ld\n",VariableName(core->reg_file[2] ),core->reg_file[2] );
-	printf("%s = %ld\n",VariableName(core->reg_file[5] ),core->reg_file[5] );
-	return core;
+	if (strcmp(testing, "p4") == 0)
+	{
+		core->data_mem[40*8] = -63; // 40(x1) = -63,
+		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
+		core->reg_file[1] = 0;	 
+		core->reg_file[0] = 0; 
+		core->reg_file[2] = 10; //outbase
+		core->reg_file[3] = -15; 
+		core->reg_file[4] = 20; 
+		core->reg_file[5] = 30; 
+		core->reg_file[6] = -35;
+	}
+	else if (strcmp(testing, "no_load") == 0)
+	{
+		core->data_mem[40*8] = -63; // 40(x1) = -63,
+		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
+		core->reg_file[1] = 0;		
+		core->reg_file[0] = 0; 
+		core->reg_file[5] = 26; //outbase
+		core->reg_file[6] = -27; 
+		core->reg_file[40] = 100;
+		core->reg_file[2] = core->reg_file[40];	
+	printf("%s = %ld\n",VariableName(core->reg_file[2]),core->reg_file[2] );
+	printf("%s = %s\n",VariableName(testing),testing);
+		
+	}
+	else if  (strcmp(testing, "not_testing") == 0)
+	{
+		core->data_mem[40*8] = -63; // 40(x1) = -63,
+		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
+		core->reg_file[1] = 0;	 
+		core->reg_file[0] = 0; 
+		core->reg_file[5] = 26; //outbase
+		core->reg_file[6] = -27; 
+		core->reg_file[40] = 100; 
+	}
+    return core;
 }
 
 // FIXME, implement this function
@@ -36,21 +67,17 @@ bool tickFunc(Core *core)
 	Reg_Signals E_reg_load = core->E_reg;	
 	Reg_Signals M_reg_load = core->M_reg;		
 	Reg_Signals WB_reg_load = core->WB_reg;	
+	/* printf("%s = %ld\n",VariableName(IF_reg_load.write_reg),ID_reg_load.write_reg);
+	printf("%s = %ld\n",VariableName(ID_reg_load.write_reg),ID_reg_load.write_reg);
+	printf("%s = %ld\n",VariableName(E_reg_load.write_reg),E_reg_load.write_reg);
+	printf("%s = %ld\n",VariableName(M_reg_load.write_reg),M_reg_load.write_reg);
+	printf("%s = %ld\n",VariableName(WB_reg_load.write_reg),WB_reg_load.write_reg); */
 	Signal num_instructions = (core->instr_mem->last->addr /4) + 1;	
-	Signal PC_Control = 0;
-	/* hazard_unit(	 &PC_Control,
-					&IF_reg_load,
-					&ID_reg_load,
-					&E_reg_load,	
-					&M_reg_load ,
-					&WB_reg_load); */
-	
 	if( (core->stages_complete < (num_instructions )))
-	{		
+	{
 		core->IF_reg.PC = core->PC;
 		core->IF_reg.instruction = core->instr_mem->instructions[core->PC / 4].instruction;					
-		
-		if(PC_Control == 0)core->PC = core->PC + 4;	
+		core->PC = core->PC + 4;	
 	}
 	// <------------------------ ID Reg				
 	Signal alu_in_0, alu_in_1;	
@@ -77,6 +104,8 @@ bool tickFunc(Core *core)
 	if( (core->stages_complete > 1 ) && (core->stages_complete < ( num_instructions + 2)))// Execute stage
 	{	
 		// <---------------------------------- Execute Reg 
+		//Signal alu_in_1 = MUX(ID_reg_load.signals.ALUSrc,ID_reg_load.read_reg_val_2,ID_reg_load.imm_sign_extended);
+		
 		Signal Forward_A, Forward_B; //<----------------------------------------------------------------------- change
 		 forwarding_unit(&Forward_A,&Forward_B,IF_reg_load,ID_reg_load,E_reg_load,M_reg_load,WB_reg_load); 
 		printf("%s = %ld\n",VariableName(Forward_A),Forward_A);
@@ -90,7 +119,7 @@ bool tickFunc(Core *core)
 		Signal func3 =( (ID_reg_load.instruction >> (7 + 5)) & 7);    
 		Signal func7 = ((ID_reg_load.instruction >> (7 + 5 + 3 + 5 + 5)) & 127);	
 		Signal ALU_ctrl_signal = ALUControlUnit(ID_reg_load.signals.ALUOp, func7, func3);		
-		 (alu_in_0, alu_in_1, ALU_ctrl_signal, &core->E_reg.alu_result, &core->E_reg.zero_out); // 0 is offset shuold change to imm val		
+		ALU(alu_in_0, alu_in_1, ALU_ctrl_signal, &core->E_reg.alu_result, &core->E_reg.zero_out); // 0 is offset shuold change to imm val		
 		core->E_reg.branch_address = ShiftLeft1(ID_reg_load.imm_sign_extended)+ ID_reg_load.PC ;					
 		core->E_reg.write_reg = ID_reg_load.write_reg;	
 	}	
@@ -488,76 +517,4 @@ Signal forwarding_unit(Signal *Forward_A,
 	printf("%s = %ld\n",VariableName(logic_var),logic_var);
 		
     
-}
-
-void hazard_unit(	Signal *PC_Control,
-					Reg_Signals *IF_reg_load,
-					Reg_Signals *ID_reg_load,
-					Reg_Signals *E_reg_load,	
-					Reg_Signals *M_reg_load ,
-					Reg_Signals *WB_reg_load
-)
-{
-	if (ID_reg_load->signals.MemRead &&
-	((ID_reg_load->write_reg== IF_reg_load->reg_read_index_1) ||
-	(ID_reg_load->write_reg == IF_reg_load->reg_read_index_2)))
-	{       
-        //printf("bne\n"); 
-		E_reg_load->signals.ALUSrc = 0;		
-        E_reg_load->signals.MemtoReg = 0; 
-        E_reg_load->signals.RegWrite = 0;
-        E_reg_load->signals.MemRead = 0;
-        E_reg_load->signals.MemWrite = 0;
-        E_reg_load->signals.Branch = 0;
-        E_reg_load->signals.ALUOp = 0;    
-		
-		*PC_Control = 1;
-	}
-}
-	
-void testing_function(char testing[], Core *core)
-{
-	if (strcmp(testing, "p4") == 0)
-	{
-		core->data_mem[40*8] = -63; // 40(x1) = -63,
-		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
-		core->reg_file[1] = 0;	 
-		core->reg_file[0] = 0; 
-		core->reg_file[2] = 10; //outbase
-		core->reg_file[3] = -15; 
-		core->reg_file[4] = 20; 
-		core->reg_file[5] = 30; 
-		core->reg_file[6] = -35;
-	}
-	else if (strcmp(testing, "no_load") == 0)
-	{
-		core->data_mem[40*8] = -63; // 40(x1) = -63,
-		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
-		core->reg_file[1] = 0;		
-		core->reg_file[0] = 0; 
-		core->reg_file[5] = 26; //outbase
-		core->reg_file[6] = -27; 
-		core->reg_file[40] = 100;
-		core->reg_file[2] = core->reg_file[40];			
-	}
-	else if  (strcmp(testing, "not_testing") == 0)
-	{
-		core->data_mem[40*8] = -63; // 40(x1) = -63,
-		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
-		core->reg_file[1] = 0;	 
-		core->reg_file[0] = 0; 
-		core->reg_file[5] = 26; //outbase
-		core->reg_file[6] = -27; 
-		core->reg_file[40] = 100; 
-	}
-	else if  (strcmp(testing, "load") == 0)
-	{
-		core->data_mem[40*8] = -63; // 40(x1) = -63,
-		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
-		core->reg_file[1] = 0;	 
-		core->reg_file[0] = 0; 
-		core->reg_file[5] = 26; //outbase
-		core->reg_file[6] = -27; 
-		core->reg_file[40] = 100; 
-	}
 }

@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #define VariableName(name) #name
-#include <string.h>
+
 #define BOOL bool
 
 typedef uint8_t Byte;
@@ -138,16 +138,7 @@ Signal forwarding_unit(Signal *Forward_A,
 					Reg_Signals E_reg_load,	
 					Reg_Signals M_reg_load ,
 					Reg_Signals WB_reg_load	);
-										
-void hazard_unit(	Signal *PC_Control,
-					Reg_Signals *IF_reg_load,
-					Reg_Signals *ID_reg_load,
-					Reg_Signals *E_reg_load,	
-					Reg_Signals *M_reg_load ,
-					Reg_Signals *WB_reg_load
-);										
 					
-void testing_function(char testing[], Core *core);
 
 #endif
 
