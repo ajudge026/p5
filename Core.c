@@ -37,7 +37,9 @@ bool tickFunc(Core *core)
 		printf("%s = %ld\n",VariableName(E_reg_load.noop_control),E_reg_load.noop_control );
 		printf("%s = %ld\n",VariableName(M_reg_load.noop_control),M_reg_load.noop_control );
 		printf("%s = %ld\n",VariableName(WB_reg_load.noop_control),WB_reg_load.noop_control );
+		if(PC_Control == 1) core->instr_mem->last->addr = core->instr_mem->last->addr + 4;
 		Signal num_instructions = (core->instr_mem->last->addr /4) + 1;	
+		
 	Signal PC_Control = 0;
 	 hazard_unit(	 &PC_Control,
 					&IF_reg_load,
@@ -166,7 +168,7 @@ bool tickFunc(Core *core)
 	printf("%s = %ld\n",VariableName(core->reg_file[4]),core->reg_file[4] );
 	printf("%s = %ld\n",VariableName(core->reg_file[8]),core->reg_file[8] );
 	printf("%s = %ld\n",VariableName(core->reg_file[9]),core->reg_file[9] );	
-	if(PC_Control != 1)++core->stages_complete;
+	++core->stages_complete;
     ++core->clk;
     // Are we reaching the final instruction?
 	printf("%s = %ld\n",VariableName(num_instructions), num_instructions);
