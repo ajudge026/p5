@@ -129,8 +129,7 @@ bool tickFunc(Core *core)
 		{						
 			core->reg_file[M_reg_load.write_reg] = core->WB_reg.reg_write_mux_val;			
 		}
-	}
-	printf("--------------------------------------------\n");	
+	}	
 	printf("Clock cycles = %d\n",core->stages_complete);	
 	printf("REG FILES\n");	
 	printf("%s = %ld\n",VariableName(core->reg_file[2]),core->reg_file[2] );
@@ -142,6 +141,7 @@ bool tickFunc(Core *core)
     ++core->clk;
     // Are we reaching the final instruction?
 	printf("%s = %ld\n",VariableName(num_instructions), num_instructions);
+	printf("--------------------------------------------\n");	
     if (core->stages_complete > num_instructions + 4 )
     {		
         return false;
