@@ -44,7 +44,7 @@ bool tickFunc(Core *core)
 	printf("%s = %ld\n",VariableName(PC_Control),PC_Control);	
 	if(PC_Control != 0) 
 		{
-			core->PC = core->PC - 4 
+			core->PC = core->PC - 4 ;
 			--core->stages_complete;
 		} 
 	if( (core->stages_complete < (num_instructions )))
