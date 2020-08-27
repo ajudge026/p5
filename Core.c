@@ -151,6 +151,8 @@ bool tickFunc(Core *core)
 	printf("%s = %ld\n",VariableName(core->E_reg.instr_num),core->E_reg.instr_num);		
 	printf("%s = %ld\n",VariableName(core->M_reg.instr_num),core->M_reg.instr_num);		
 	printf("%s = %ld\n",VariableName(core->WB_reg.instr_num),core->WB_reg.instr_num);		
+	printf("%s = %ld\n",VariableName(alu_in_1),alu_in_1);		
+	printf("%s = %ld\n",VariableName(alu_in_0),alu_in_0);		
 	printf("REG FILES\n");	
 	printf("%s = %ld\n",VariableName(core->reg_file[2]),core->reg_file[2] );
 	printf("%s = %ld\n",VariableName(core->reg_file[4]),core->reg_file[4] );
