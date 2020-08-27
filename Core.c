@@ -512,7 +512,7 @@ void hazard_unit(	Signal *PC_Control,
 	}
 }
 	
-void testing_function(Signal testing, Byte *data_mem[1024], // data memor,
+void testing_function(char testing, Byte *data_mem[1024], // data memor,
     Register *reg_file[32])
 {
 	if (strcmp(testing, "p4") == 0)
