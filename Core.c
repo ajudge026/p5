@@ -46,7 +46,7 @@ bool tickFunc(Core *core)
 		{
 			core->PC = core->PC - 4;
 			--core->stages_complete;
-		}
+		} 
 	if( (core->stages_complete < (num_instructions )))
 	{		
 		core->IF_reg.PC = core->PC; 		
@@ -66,7 +66,7 @@ bool tickFunc(Core *core)
 		Signal input = (IF_reg_load.instruction & 127);		
 		//ControlSignals signals;
 		printf("initial write reg : %s = %ld\n",VariableName(ID_reg_load.noop_control),ID_reg_load.noop_control);
-		ControlUnit(IF_reg_load.instruction, input, ID_reg_load.noop_control, &core->ID_reg.signals);	
+		ControlUnit(IF_reg_load.instruction, input, PC_Control, &core->ID_reg.signals);	
 		printf("initial write reg : %s = %ld\n",VariableName(core->ID_reg.signals.MemRead),core->ID_reg.signals.MemRead);
 		core->ID_reg.write_reg = (IF_reg_load.instruction >> 7) & 31;		
 		core->ID_reg.reg_read_index_1 = (IF_reg_load.instruction >> (7 + 5 + 3)) & 31;
