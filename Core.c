@@ -32,11 +32,6 @@ bool tickFunc(Core *core)
 	Reg_Signals E_reg_load = core->E_reg;	
 	Reg_Signals M_reg_load = core->M_reg;		
 	Reg_Signals WB_reg_load = core->WB_reg;	
-	/* printf("%s = %ld\n",VariableName(IF_reg_load.write_reg),ID_reg_load.write_reg);
-	printf("%s = %ld\n",VariableName(ID_reg_load.write_reg),ID_reg_load.write_reg);
-	printf("%s = %ld\n",VariableName(E_reg_load.write_reg),E_reg_load.write_reg);
-	printf("%s = %ld\n",VariableName(M_reg_load.write_reg),M_reg_load.write_reg);
-	printf("%s = %ld\n",VariableName(WB_reg_load.write_reg),WB_reg_load.write_reg); */
 	Signal num_instructions = (core->instr_mem->last->addr /4) + 1;	
 	if( (core->stages_complete < (num_instructions )))
 	{
@@ -482,6 +477,31 @@ Signal forwarding_unit(Signal *Forward_A,
 	printf("%s = %ld\n",VariableName(logic_var),logic_var);
 		
     
+}
+
+void hazard_unit(	Signal *PC_Control,
+					Reg_Signals *IF_reg_load,
+					Reg_Signals *ID_reg_load,
+					Reg_Signals *E_reg_load,	
+					Reg_Signals *M_reg_load ,
+					Reg_Signals *WB_reg_load
+)
+{
+	if (ID_reg_load->signals.MemRead &&
+	((ID_reg_load->write_reg== IF_reg_load->reg_read_index_1) ||
+	(ID_reg_load->write_reg == IF_reg_load->reg_read_index_2)))
+	{       
+        //printf("bne\n"); 
+		E_reg_load->signals.ALUSrc = 0;		
+        E_reg_load->signals.MemtoReg = 0; 
+        E_reg_load->signals.RegWrite = 0;
+        E_reg_load->signals.MemRead = 0;
+        E_reg_load->signals.MemWrite = 0;
+        E_reg_load->signals.Branch = 0;
+        E_reg_load->signals.ALUOp = 0;    
+		
+		*PC_Control = 1;
+	}
 }
 
 void testing_function(char testing[], Core *core)
