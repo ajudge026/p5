@@ -40,7 +40,7 @@ bool tickFunc(Core *core)
 					&E_reg_load,	
 					&M_reg_load ,
 					&WB_reg_load); 
-	core->IF_reg.noop_control = PC_Control;
+	core->ID_reg.noop_control = PC_Control;
 	printf("%s = %ld\n",VariableName(PC_Control),PC_Control);
 	printf("%s = %ld\n",VariableName(core->IF_reg.noop_control),core->IF_reg.noop_control);
 	printf("(((((((((((( noop controls start)))))))))))))))))))))\n");	
@@ -49,8 +49,10 @@ bool tickFunc(Core *core)
 	printf("(((((((((((( noop controls end )))))))))))))))))))))\n");	
 	if( (core->stages_complete < (num_instructions )))
 	{
-		core->IF_reg.PC = core->PC;
-		core->IF_reg.instruction = core->instr_mem->instructions[core->PC / 4].instruction;					
+		if(PC_Control == 0) core->IF_reg.PC = core->PC else core->IF_reg.PC = core->PC - 4;
+		core->IF_reg.instruction = core->instr_mem->instructions[core->PC / 4].instruction;	
+		 core->ID_reg.reg_read_index_1 = (IF_reg_load.instruction >> (7 + 5 + 3)) & 31;
+		core->ID_reg.reg_read_index_2 = (IF_reg_load.instruction >> (7 + 5 + 3 + 5)) & 31;
 		if(PC_Control == 0)core->PC = core->PC + 4;	
 	}
 	// <------------------------ ID Reg				
@@ -519,7 +521,7 @@ void hazard_unit(	Signal *PC_Control,
 	printf("%s = %ld\n",VariableName(IF_reg_load->reg_read_index_1),IF_reg_load->reg_read_index_1);
 	printf("%s = %ld\n",VariableName(IF_reg_load->reg_read_index_2),IF_reg_load->reg_read_index_2);
 	if (ID_reg_load->signals.MemRead &&
-	((ID_reg_load->write_reg== IF_reg_load->reg_read_index_1) ||
+	((ID_reg_load->write_reg== IF_reg_load->reg_read_index_1) || // <----------- IF_reg_load->reg_read_index_1 needs to be saved in if stage
 	(ID_reg_load->write_reg == IF_reg_load->reg_read_index_2)))
 	{   
 		*PC_Control = 1;
