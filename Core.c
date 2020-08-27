@@ -36,7 +36,7 @@ bool tickFunc(Core *core)
 		printf("%s = %ld\n",VariableName(E_reg_load.noop_control),E_reg_load.noop_control );
 		printf_varname(E_reg_load.noop_control);
 		printf_varname(M_reg_load.noop_control);
-		printf_varname(W_reg_load.noop_control);
+		printf_varname(WB_reg_load.noop_control);
 		Signal num_instructions = (core->instr_mem->last->addr /4) + 1;	
 	Signal PC_Control = 0;
 	 hazard_unit(	 &PC_Control,
