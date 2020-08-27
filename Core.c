@@ -79,7 +79,7 @@ bool tickFunc(Core *core)
 	core->M_reg.branch_address = WB_reg_load.branch_address;
 	core->E_reg.signals = ID_reg_load.signals;	
 	core->E_reg.read_reg_val_2 = ID_reg_load.read_reg_val_2;
-	core->E_reg.noop_control = 	core->ID_reg.noop_control;
+	core->E_reg.noop_control = 	ID_reg_load.noop_control;
 	if( (core->stages_complete > 1 ) && (core->stages_complete < ( num_instructions + 2)) && (E_reg_load.noop_control == 0))// Execute stage
 	{	
 		// <---------------------------------- Execute Reg 
@@ -104,7 +104,7 @@ bool tickFunc(Core *core)
 	}	
 	Signal mem_result;
 	core->M_reg.signals = E_reg_load.signals;	
-	core->M_reg.noop_control = 	core->E_reg.noop_control;
+	core->M_reg.noop_control = 	E_reg_load.noop_control;
 	if( (core->stages_complete > 2) && (core->stages_complete < num_instructions + 3) && (M_reg_load.noop_control == 0))
 	{
 		// <------------------------ M Reg
@@ -127,7 +127,7 @@ bool tickFunc(Core *core)
 		core->M_reg.reg_write_mux_val = MUX(E_reg_load.signals.MemtoReg, E_reg_load.alu_result, E_reg_load.mem_read_data);
 	}	
 	//<------------- WB Reg			
-	core->WB_reg.noop_control = core->M_reg.noop_control;
+	core->WB_reg.noop_control = core->M_reg_load.noop_control;
 		printf("%s = %ld\n",VariableName(M_reg_load.signals.RegWrite),M_reg_load.signals.RegWrite);
 	if( (core->stages_complete > 3) && (core->stages_complete < num_instructions + 4 ) &&  (WB_reg_load.noop_control == 0))
 	{		
