@@ -18,7 +18,7 @@ Core *initCore(Instruction_Memory *i_mem)
 	}
 	char testing[] = "no_load";
 	printf("%s = %s\n",VariableName(testing),testing);
-	testing_function(testing,  *core->data_mem[1024], *core->reg_file[32]);
+	testing_function(testing,  &core->data_mem, &core->reg_file);
     return core;
 }
 
@@ -487,7 +487,7 @@ Signal forwarding_unit(Signal *Forward_A,
     
 }
 
-void hazard_unit(	Signal *PC_Control;
+void hazard_unit(	Signal *PC_Control,
 					Reg_Signals *IF_reg_load,
 					Reg_Signals *ID_reg_load,
 					Reg_Signals *E_reg_load,	
