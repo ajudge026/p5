@@ -32,14 +32,11 @@ bool tickFunc(Core *core)
 	Reg_Signals E_reg_load = core->E_reg;	
 	Reg_Signals M_reg_load = core->M_reg;		
 	Reg_Signals WB_reg_load = core->WB_reg;		
-	printf("%s = %ld\n",VariableName(core->clk),core->clk);
 	
-		printf("%s = %ld\n",VariableName(E_reg_load.noop_control),E_reg_load.noop_control );
-		printf("%s = %ld\n",VariableName(M_reg_load.noop_control),M_reg_load.noop_control );
-		printf("%s = %ld\n",VariableName(WB_reg_load.noop_control),WB_reg_load.noop_control );
-		if(PC_Control == 1) core->instr_mem->last->addr = core->instr_mem->last->addr + 4;
-		Signal num_instructions = (core->instr_mem->last->addr /4) + 1;	
-		
+	printf("%s = %ld\n",VariableName(core->clk),core->clk);
+	printf("%s = %ld\n",VariableName(E_reg_load.noop_control),E_reg_load.noop_control );
+	printf("%s = %ld\n",VariableName(M_reg_load.noop_control),M_reg_load.noop_control );
+	printf("%s = %ld\n",VariableName(WB_reg_load.noop_control),WB_reg_load.noop_control );		
 	Signal PC_Control = 0;
 	 hazard_unit(	 &PC_Control,
 					&IF_reg_load,
@@ -47,6 +44,8 @@ bool tickFunc(Core *core)
 					&E_reg_load,	
 					&M_reg_load ,
 					&WB_reg_load); 
+	if(PC_Control == 1) core->instr_mem->last->addr = core->instr_mem->last->addr + 4;
+	Signal num_instructions = (core->instr_mem->last->addr /4) + 1;	
 	core->E_reg.noop_control = PC_Control;
 	printf("%s = %ld\n",VariableName(PC_Control),PC_Control);
 	printf("%s = %ld\n",VariableName(PC_Control),PC_Control );	
