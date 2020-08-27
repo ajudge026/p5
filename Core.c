@@ -64,9 +64,10 @@ bool tickFunc(Core *core)
 		// getting control signals
 		Signal input = (IF_reg_load.instruction & 127);		
 		//ControlSignals signals;
+		printf("initial write reg : %s = %ld\n",VariableName(ID_reg_load.noop_control),ID_reg_load.noop_control);
 		ControlUnit(IF_reg_load.instruction, input, ID_reg_load.noop_control, &core->ID_reg.signals);	
 		core->ID_reg.write_reg = (IF_reg_load.instruction >> 7) & 31;
-		printf("initial write reg : %s = %ld\n",VariableName(core->ID_reg.write_reg),core->ID_reg.write_reg);
+		//printf("initial write reg : %s = %ld\n",VariableName(core->ID_reg.write_reg),core->ID_reg.write_reg);
 		core->ID_reg.reg_read_index_1 = (IF_reg_load.instruction >> (7 + 5 + 3)) & 31;
 		core->ID_reg.reg_read_index_2 = (IF_reg_load.instruction >> (7 + 5 + 3 + 5)) & 31;
 		core->ID_reg.read_reg_val_1 = core->reg_file[(IF_reg_load.instruction >> (7 + 5 + 3)) & 31];
