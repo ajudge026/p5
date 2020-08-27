@@ -60,7 +60,7 @@ bool tickFunc(Core *core)
 	Signal alu_in_0, alu_in_1;	
 	core->ID_reg.PC = IF_reg_load.PC;
 	core->E_reg.branch_address = M_reg_load.branch_address;
-	if( (core->stages_complete >  0) && (core->stages_complete < (num_instructions + 1)) && (PC_Control == 1))
+	if( (core->stages_complete >  0) && (core->stages_complete < (num_instructions + 1)) && (PC_Control == 0))
 	{
 		// getting control signals
 		Signal input = (IF_reg_load.instruction & 127);		
@@ -80,7 +80,7 @@ bool tickFunc(Core *core)
 	core->E_reg.signals = ID_reg_load.signals;	
 	core->E_reg.read_reg_val_2 = ID_reg_load.read_reg_val_2;
 	core->E_reg.noop_control = 	core->ID_reg.noop_control;
-	if( (core->stages_complete > 1 ) && (core->stages_complete < ( num_instructions + 2)) && (E_reg_load.noop_control == 1))// Execute stage
+	if( (core->stages_complete > 1 ) && (core->stages_complete < ( num_instructions + 2)) && (E_reg_load.noop_control == 0))// Execute stage
 	{	
 		// <---------------------------------- Execute Reg 
 		//Signal alu_in_1 = MUX(ID_reg_load.signals.ALUSrc,ID_reg_load.read_reg_val_2,ID_reg_load.imm_sign_extended);
@@ -105,7 +105,7 @@ bool tickFunc(Core *core)
 	Signal mem_result;
 	core->M_reg.signals = E_reg_load.signals;	
 	core->M_reg.noop_control = 	core->E_reg.noop_control;
-	if( (core->stages_complete > 2) && (core->stages_complete < num_instructions + 3) && (M_reg_load.noop_control == 1))
+	if( (core->stages_complete > 2) && (core->stages_complete < num_instructions + 3) && (M_reg_load.noop_control == 0))
 	{
 		// <------------------------ M Reg
 		mem_result= 0;		
@@ -129,7 +129,7 @@ bool tickFunc(Core *core)
 	//<------------- WB Reg			
 	core->WB_reg.noop_control = core->M_reg.noop_control;
 		printf("%s = %ld\n",VariableName(M_reg_load.signals.RegWrite),M_reg_load.signals.RegWrite);
-	if( (core->stages_complete > 3) && (core->stages_complete < num_instructions + 4 ) &&  (WB_reg_load.noop_control == 1))
+	if( (core->stages_complete > 3) && (core->stages_complete < num_instructions + 4 ) &&  (WB_reg_load.noop_control == 0))
 	{		
 		core->WB_reg.reg_write_mux_val = MUX(M_reg_load.signals.MemtoReg, M_reg_load.alu_result, M_reg_load.mem_read_data);						
 		if(M_reg_load.signals.RegWrite)
