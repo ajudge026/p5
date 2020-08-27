@@ -153,6 +153,7 @@ void ControlUnit(unsigned instruction, Signal input, Signal noop_control,
 {	
 	Signal func3 = ( (instruction >> (7 + 5)) & 7);
 	Signal func7 = ((instruction >> (7 + 5 + 3 + 5 + 5)) & 127);	
+	printf("%s = %ld\n",VariableName(input),input);
     // For R-type - add
     if ((input == 51 )&& (func3 == 0) && (func7 == 0)) {
 		//printf("RType\n"); 
