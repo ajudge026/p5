@@ -44,8 +44,9 @@ bool tickFunc(Core *core)
 	printf("%s = %ld\n",VariableName(PC_Control),PC_Control);	
 	if( (core->stages_complete < (num_instructions )))
 	{
-		if(PC_Control == 0)core->PC = core->PC + 4;	
+		
 		core->IF_reg.PC = core->PC; 
+		if(PC_Control == 0)core->PC = core->PC + 4;	
 		core->IF_reg.instruction = core->instr_mem->instructions[core->PC / 4].instruction;	
 		 core->IF_reg.reg_read_index_1 = (core->IF_reg.instruction >> (7 + 5 + 3)) & 31;
 		core->IF_reg.reg_read_index_2 = (core->IF_reg.instruction >> (7 + 5 + 3 + 5)) & 31;		
