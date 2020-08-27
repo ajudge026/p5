@@ -32,7 +32,12 @@ bool tickFunc(Core *core)
 	Reg_Signals E_reg_load = core->E_reg;	
 	Reg_Signals M_reg_load = core->M_reg;		
 	Reg_Signals WB_reg_load = core->WB_reg;	
-	Signal num_instructions = (core->instr_mem->last->addr /4) + 1;	
+	
+		printf("%s = %ld\n",VariableName(E_reg_load.noop_control),E_reg_load.noop_control );
+		printf_varname(E_reg_load.noop_control);
+		printf_varname(M_reg_load.noop_control);
+		printf_varname(W_reg_load.noop_control);
+		Signal num_instructions = (core->instr_mem->last->addr /4) + 1;	
 	Signal PC_Control = 0;
 	 hazard_unit(	 &PC_Control,
 					&IF_reg_load,
@@ -595,4 +600,8 @@ void testing_function(char testing[], Core *core)
 		core->reg_file[6] = -27; 
 		core->reg_file[40] = 100; 
 	}
+}
+void printf_varname(Signal var)
+{
+	printf("%s = %ld\n",VariableName(var),var);
 }
