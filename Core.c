@@ -129,6 +129,8 @@ bool tickFunc(Core *core)
 		core->M_reg.mem_read_data 	= mem_result;
 		core->M_reg.alu_result = E_reg_load.alu_result;	
 		core->M_reg.branch_address = 0; // <------------------ change to branch address		
+		
+		printf("%s = %ld\n",VariableName(mem_result),mem_result);
 		if(E_reg_load.signals.MemWrite)
 		{       
 			core->data_mem[8*E_reg_load.alu_result] = E_reg_load.read_reg_val_2;		
