@@ -18,7 +18,7 @@ Core *initCore(Instruction_Memory *i_mem)
 	}
 	char testing[] = "no_load";
 	printf("%s = %s\n",VariableName(testing),testing);
-	testing_function(testing,  &core->data_mem, &core->reg_file);
+	testing_function(testing,  core);
     return core;
 }
 
@@ -43,7 +43,7 @@ bool tickFunc(Core *core)
 					&WB_reg_load);
 	
 	if( (core->stages_complete < (num_instructions )))
-	{
+	{		
 		core->IF_reg.PC = core->PC;
 		core->IF_reg.instruction = core->instr_mem->instructions[core->PC / 4].instruction;					
 		
@@ -512,50 +512,49 @@ void hazard_unit(	Signal *PC_Control,
 	}
 }
 	
-void testing_function(char testing[], Byte *data_mem, 
-    Register *reg_file)
+void testing_function(char testing[], Core *core)
 {
 	if (strcmp(testing, "p4") == 0)
 	{
-		*core->data_mem[40*8] = -63; // 40(x1) = -63,
-		*core->data_mem[48*8] = 63; // 40(x1) = 2 test	
-		*core->reg_file[1] = 0;	 
-		*core->reg_file[0] = 0; 
-		*core->reg_file[2] = 10; //outbase
-		*core->reg_file[3] = -15; 
-		*core->reg_file[4] = 20; 
-		*core->reg_file[5] = 30; 
-		*core->reg_file[6] = -35;
+		core->data_mem[40*8] = -63; // 40(x1) = -63,
+		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
+		core->reg_file[1] = 0;	 
+		core->reg_file[0] = 0; 
+		core->reg_file[2] = 10; //outbase
+		core->reg_file[3] = -15; 
+		core->reg_file[4] = 20; 
+		core->reg_file[5] = 30; 
+		core->reg_file[6] = -35;
 	}
 	else if (strcmp(testing, "no_load") == 0)
 	{
-		*core->data_mem[40*8] = -63; // 40(x1) = -63,
-		*core->data_mem[48*8] = 63; // 40(x1) = 2 test	
-		*core->reg_file[1] = 0;		
-		*core->reg_file[0] = 0; 
-		*core->reg_file[5] = 26; //outbase
-		*core->reg_file[6] = -27; 
-		*core->reg_file[40] = 100;
-		*core->reg_file[2] = *core->reg_file[40];			
+		core->data_mem[40*8] = -63; // 40(x1) = -63,
+		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
+		core->reg_file[1] = 0;		
+		core->reg_file[0] = 0; 
+		core->reg_file[5] = 26; //outbase
+		core->reg_file[6] = -27; 
+		core->reg_file[40] = 100;
+		core->reg_file[2] = core->reg_file[40];			
 	}
 	else if  (strcmp(testing, "not_testing") == 0)
 	{
-		*core->data_mem[40*8] = -63; // 40(x1) = -63,
-		*core->data_mem[48*8] = 63; // 40(x1) = 2 test	
-		*core->reg_file[1] = 0;	 
-		*core->reg_file[0] = 0; 
-		*core->reg_file[5] = 26; //outbase
-		*core->reg_file[6] = -27; 
-		*core->reg_file[40] = 100; 
+		core->data_mem[40*8] = -63; // 40(x1) = -63,
+		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
+		core->reg_file[1] = 0;	 
+		core->reg_file[0] = 0; 
+		core->reg_file[5] = 26; //outbase
+		core->reg_file[6] = -27; 
+		core->reg_file[40] = 100; 
 	}
 	else if  (strcmp(testing, "load") == 0)
 	{
-		*core->data_mem[40*8] = -63; // 40(x1) = -63,
-		*core->data_mem[48*8] = 63; // 40(x1) = 2 test	
-		*core->reg_file[1] = 0;	 
-		*core->reg_file[0] = 0; 
-		*core->reg_file[5] = 26; //outbase
-		*core->reg_file[6] = -27; 
-		*core->reg_file[40] = 100; 
+		core->data_mem[40*8] = -63; // 40(x1) = -63,
+		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
+		core->reg_file[1] = 0;	 
+		core->reg_file[0] = 0; 
+		core->reg_file[5] = 26; //outbase
+		core->reg_file[6] = -27; 
+		core->reg_file[40] = 100; 
 	}
 }

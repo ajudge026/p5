@@ -139,8 +139,7 @@ Signal forwarding_unit(Signal *Forward_A,
 					Reg_Signals M_reg_load ,
 					Reg_Signals WB_reg_load	);
 					
-void testing_function(char testing[], Byte *data_mem, // data memor,
-    Register *reg_file);
+void testing_function(char testing[], Core *core);
 
 #endif
 
