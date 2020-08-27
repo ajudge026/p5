@@ -154,6 +154,7 @@ bool tickFunc(Core *core)
 	printf("%s = %ld\n",VariableName(alu_in_1),alu_in_1);		
 	printf("%s = %ld\n",VariableName(alu_in_0),alu_in_0);		
 	printf("%s = %ld\n",VariableName(ID_reg_load.imm_sign_extended),ID_reg_load.imm_sign_extended);		
+	printf("%s = %ld\n",VariableName(ID_reg_load.signals.ALUSrc),ID_reg_load.signals.ALUSrc);		
 	printf("REG FILES\n");	
 	printf("%s = %ld\n",VariableName(core->reg_file[2]),core->reg_file[2] );
 	printf("%s = %ld\n",VariableName(core->reg_file[4]),core->reg_file[4] );
