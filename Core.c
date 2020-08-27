@@ -40,6 +40,8 @@ bool tickFunc(Core *core)
 					&E_reg_load,	
 					&M_reg_load ,
 					&WB_reg_load); 
+	Signal core->IF_reg.noop_control = PC_Control;
+	
 	if( (core->stages_complete < (num_instructions )))
 	{
 		core->IF_reg.PC = core->PC;
@@ -55,7 +57,7 @@ bool tickFunc(Core *core)
 		// getting control signals
 		Signal input = (IF_reg_load.instruction & 127);		
 		//ControlSignals signals;
-		ControlUnit(IF_reg_load.instruction, input, &core->ID_reg.signals);	
+		ControlUnit(IF_reg_load.instruction, input, ID_reg_load.noop_control, &core->ID_reg.signals);	
 		core->ID_reg.write_reg = (IF_reg_load.instruction >> 7) & 31;
 		printf("initial write reg : %s = %ld\n",VariableName(core->ID_reg.write_reg),core->ID_reg.write_reg);
 		core->ID_reg.reg_read_index_1 = (IF_reg_load.instruction >> (7 + 5 + 3)) & 31;
@@ -141,7 +143,7 @@ bool tickFunc(Core *core)
     return true;
 }
 // FIXME (1). Control Unit. Refer to Figure 4.18.
-void ControlUnit(unsigned instruction, Signal input,
+void ControlUnit(unsigned instruction, Signal input, Signal noop_control,
                  ControlSignals *signals)
 {	
 	Signal func3 = ( (instruction >> (7 + 5)) & 7);
@@ -224,6 +226,18 @@ void ControlUnit(unsigned instruction, Signal input,
         signals->Branch = 1;
         signals->ALUOp = 1;
     }
+	if (noop_control == 1)
+	{
+		//printf("bne\n"); 
+		signals->ALUSrc = 0;		
+        signals->MemtoReg = 0; 
+        signals->RegWrite = 0;
+        signals->MemRead = 0;
+        signals->MemWrite = 0;
+        signals->Branch = 0;
+        signals->ALUOp = 0;    
+	}
+	
 }
 
 // FIXME (2). ALU Control Unit. Refer to Figure 4.12.
@@ -497,16 +511,7 @@ void hazard_unit(	Signal *PC_Control,
 	if (ID_reg_load->signals.MemRead &&
 	((ID_reg_load->write_reg== IF_reg_load->reg_read_index_1) ||
 	(ID_reg_load->write_reg == IF_reg_load->reg_read_index_2)))
-	{       
-        //printf("bne\n"); 
-		E_reg_load->signals.ALUSrc = 0;		
-        E_reg_load->signals.MemtoReg = 0; 
-        E_reg_load->signals.RegWrite = 0;
-        E_reg_load->signals.MemRead = 0;
-        E_reg_load->signals.MemWrite = 0;
-        E_reg_load->signals.Branch = 0;
-        E_reg_load->signals.ALUOp = 0;    
-		
+	{   
 		*PC_Control = 1;
 	}
 }
