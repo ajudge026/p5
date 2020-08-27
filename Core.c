@@ -31,7 +31,8 @@ bool tickFunc(Core *core)
 	Reg_Signals ID_reg_load = core->ID_reg;		
 	Reg_Signals E_reg_load = core->E_reg;	
 	Reg_Signals M_reg_load = core->M_reg;		
-	Reg_Signals WB_reg_load = core->WB_reg;	
+	Reg_Signals WB_reg_load = core->WB_reg;		
+	printf("%s = %ld\n",VariableName(core->ck),core->ck);
 	
 		printf("%s = %ld\n",VariableName(E_reg_load.noop_control),E_reg_load.noop_control );
 		printf("%s = %ld\n",VariableName(M_reg_load.noop_control),M_reg_load.noop_control );
