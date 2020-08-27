@@ -40,7 +40,7 @@ bool tickFunc(Core *core)
 					&E_reg_load,	
 					&M_reg_load ,
 					&WB_reg_load); 
-	core->ID_reg.noop_control = PC_Control;
+	core->E_reg.noop_control = PC_Control;
 	printf("%s = %ld\n",VariableName(PC_Control),PC_Control);
 	printf("%s = %ld\n",VariableName(PC_Control),PC_Control );	
 	if(PC_Control != 0) 
