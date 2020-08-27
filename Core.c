@@ -47,6 +47,7 @@ bool tickFunc(Core *core)
 		if(PC_Control != 0) core->PC = core->PC - 4;
 		core->IF_reg.PC = core->PC; 		
 		core->IF_reg.instruction = core->instr_mem->instructions[core->PC / 4].instruction;	
+		printf("%s = %ld\n",VariableName(core->PC),core->PC );
 		core->PC = core->PC + 4;	
 		 core->IF_reg.reg_read_index_1 = (core->IF_reg.instruction >> (7 + 5 + 3)) & 31;
 		core->IF_reg.reg_read_index_2 = (core->IF_reg.instruction >> (7 + 5 + 3 + 5)) & 31;		
@@ -135,8 +136,7 @@ bool tickFunc(Core *core)
 	printf("%s = %ld\n",VariableName(core->reg_file[2]),core->reg_file[2] );
 	printf("%s = %ld\n",VariableName(core->reg_file[4]),core->reg_file[4] );
 	printf("%s = %ld\n",VariableName(core->reg_file[8]),core->reg_file[8] );
-	printf("%s = %ld\n",VariableName(core->reg_file[9]),core->reg_file[9] );
-	printf("%s = %ld\n",VariableName(core->PC),core->PC );
+	printf("%s = %ld\n",VariableName(core->reg_file[9]),core->reg_file[9] );	
 	++core->stages_complete;
     ++core->clk;
     // Are we reaching the final instruction?
