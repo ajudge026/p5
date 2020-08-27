@@ -87,7 +87,7 @@ bool tickFunc(Core *core)
 	core->M_reg.branch_address = WB_reg_load.branch_address;
 	core->E_reg.signals = ID_reg_load.signals;	
 	core->E_reg.read_reg_val_2 = ID_reg_load.read_reg_val_2;
-	core->E_reg.noop_control = 	ID_reg_load.noop_control;
+	//core->E_reg.noop_control = 	ID_reg_load.noop_control;
 	core->E_reg.instr_num = ID_reg_load.instr_num ;
 	if( (core->stages_complete > 1 ) && (core->stages_complete < ( num_instructions + 2)) && (E_reg_load.noop_control == 0))// Execute stage
 	{	
