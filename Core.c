@@ -44,7 +44,7 @@ bool tickFunc(Core *core)
 	printf("%s = %ld\n",VariableName(PC_Control),PC_Control);	
 	if(PC_Control != 0) 
 		{
-			core->PC = core->PC - 4;
+			core->PC = core->PC - 4 
 			--core->stages_complete;
 		} 
 	if( (core->stages_complete < (num_instructions )))
@@ -60,13 +60,13 @@ bool tickFunc(Core *core)
 	Signal alu_in_0, alu_in_1;	
 	core->ID_reg.PC = IF_reg_load.PC;
 	core->E_reg.branch_address = M_reg_load.branch_address;
-	if( (core->stages_complete >  0) && (core->stages_complete < (num_instructions + 1)) && (PC_Control == 0))
+	if( (core->stages_complete >  0) && (core->stages_complete < (num_instructions + 1)) )
 	{
 		// getting control signals
 		Signal input = (IF_reg_load.instruction & 127);		
 		//ControlSignals signals;
 		printf("initial write reg : %s = %ld\n",VariableName(ID_reg_load.noop_control),ID_reg_load.noop_control);
-		ControlUnit(IF_reg_load.instruction, input, PC_Control, &core->ID_reg.signals);	
+		ControlUnit(IF_reg_load.instruction, input, &core->ID_reg.signals);	
 		printf("initial write reg : %s = %ld\n",VariableName(core->ID_reg.signals.MemRead),core->ID_reg.signals.MemRead);
 		core->ID_reg.write_reg = (IF_reg_load.instruction >> 7) & 31;		
 		core->ID_reg.reg_read_index_1 = (IF_reg_load.instruction >> (7 + 5 + 3)) & 31;
@@ -157,7 +157,7 @@ bool tickFunc(Core *core)
     return true;
 }
 // FIXME (1). Control Unit. Refer to Figure 4.18.
-void ControlUnit(unsigned instruction, Signal input, Signal noop_control,
+void ControlUnit(unsigned instruction, Signal input, 
                  ControlSignals *signals)
 {	
 	Signal func3 = ( (instruction >> (7 + 5)) & 7);
