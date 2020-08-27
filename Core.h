@@ -139,6 +139,6 @@ Signal forwarding_unit(Signal *Forward_A,
 					Reg_Signals M_reg_load ,
 					Reg_Signals WB_reg_load	);
 					
-
+void testing_function(char testing[], Core *core);
 #endif
 

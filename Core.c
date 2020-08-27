@@ -17,42 +17,7 @@ Core *initCore(Instruction_Memory *i_mem)
 	}
 	char testing[] = "no_load";
 	printf("%s = %s\n",VariableName(testing),testing);
-	if (strcmp(testing, "p4") == 0)
-	{
-		core->data_mem[40*8] = -63; // 40(x1) = -63,
-		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
-		core->reg_file[1] = 0;	 
-		core->reg_file[0] = 0; 
-		core->reg_file[2] = 10; //outbase
-		core->reg_file[3] = -15; 
-		core->reg_file[4] = 20; 
-		core->reg_file[5] = 30; 
-		core->reg_file[6] = -35;
-	}
-	else if (strcmp(testing, "no_load") == 0)
-	{
-		core->data_mem[40*8] = -63; // 40(x1) = -63,
-		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
-		core->reg_file[1] = 0;		
-		core->reg_file[0] = 0; 
-		core->reg_file[5] = 26; //outbase
-		core->reg_file[6] = -27; 
-		core->reg_file[40] = 100;
-		core->reg_file[2] = core->reg_file[40];	
-	printf("%s = %ld\n",VariableName(core->reg_file[2]),core->reg_file[2] );
-	printf("%s = %s\n",VariableName(testing),testing);
-		
-	}
-	else if  (strcmp(testing, "not_testing") == 0)
-	{
-		core->data_mem[40*8] = -63; // 40(x1) = -63,
-		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
-		core->reg_file[1] = 0;	 
-		core->reg_file[0] = 0; 
-		core->reg_file[5] = 26; //outbase
-		core->reg_file[6] = -27; 
-		core->reg_file[40] = 100; 
-	}
+	testing_function(testing,  core);
     return core;
 }
 
@@ -517,4 +482,51 @@ Signal forwarding_unit(Signal *Forward_A,
 	printf("%s = %ld\n",VariableName(logic_var),logic_var);
 		
     
+}
+
+void testing_function(char testing[], Core *core)
+{
+	if (strcmp(testing, "p4") == 0)
+	{
+		core->data_mem[40*8] = -63; // 40(x1) = -63,
+		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
+		core->reg_file[1] = 0;	 
+		core->reg_file[0] = 0; 
+		core->reg_file[2] = 10; //outbase
+		core->reg_file[3] = -15; 
+		core->reg_file[4] = 20; 
+		core->reg_file[5] = 30; 
+		core->reg_file[6] = -35;
+	}
+	else if (strcmp(testing, "no_load") == 0)
+	{
+		core->data_mem[40*8] = -63; // 40(x1) = -63,
+		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
+		core->reg_file[1] = 0;		
+		core->reg_file[0] = 0; 
+		core->reg_file[5] = 26; //outbase
+		core->reg_file[6] = -27; 
+		core->reg_file[40] = 100;
+		core->reg_file[2] = core->reg_file[40];			
+	}
+	else if  (strcmp(testing, "not_testing") == 0)
+	{
+		core->data_mem[40*8] = -63; // 40(x1) = -63,
+		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
+		core->reg_file[1] = 0;	 
+		core->reg_file[0] = 0; 
+		core->reg_file[5] = 26; //outbase
+		core->reg_file[6] = -27; 
+		core->reg_file[40] = 100; 
+	}
+	else if  (strcmp(testing, "load") == 0)
+	{
+		core->data_mem[40*8] = -63; // 40(x1) = -63,
+		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
+		core->reg_file[1] = 0;	 
+		core->reg_file[0] = 0; 
+		core->reg_file[5] = 26; //outbase
+		core->reg_file[6] = -27; 
+		core->reg_file[40] = 100; 
+	}
 }
