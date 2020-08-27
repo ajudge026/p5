@@ -115,7 +115,6 @@ bool tickFunc(Core *core)
 		core->M_reg.mem_read_data 	= mem_result;
 		core->M_reg.alu_result = E_reg_load.alu_result;	
 		core->M_reg.branch_address = 0; // <------------------ change to branch address		
-		printf("%s = %ld\n",VariableName(E_reg_load.signals.MemWrite),E_reg_load.signals.MemWrite);
 		if(E_reg_load.signals.MemWrite)
 		{       
 			core->data_mem[8*E_reg_load.alu_result] = E_reg_load.read_reg_val_2;		
@@ -124,6 +123,8 @@ bool tickFunc(Core *core)
 		core->M_reg.reg_write_mux_val = MUX(E_reg_load.signals.MemtoReg, E_reg_load.alu_result, E_reg_load.mem_read_data);
 	}	
 	//<------------- WB Reg			
+	
+		printf("%s = %ld\n",VariableName(M_reg_load.signals.RegWrite),M_reg_load.signals.RegWrite);
 	if( (core->stages_complete > 3) && (core->stages_complete < num_instructions + 4 ) )
 	{		
 		core->WB_reg.reg_write_mux_val = MUX(M_reg_load.signals.MemtoReg, M_reg_load.alu_result, M_reg_load.mem_read_data);						
