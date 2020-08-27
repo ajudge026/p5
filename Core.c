@@ -16,7 +16,7 @@ Core *initCore(Instruction_Memory *i_mem)
 		core->data_mem[i] = 0;		
 	}
 	char testing[] = "load";
-	printf("%s = %s\n",VariableName(testing),testing);
+	//printf("%s = %s\n",VariableName(testing),testing);
 	testing_function(testing,  core);
     return core;
 }
@@ -115,6 +115,7 @@ bool tickFunc(Core *core)
 		core->M_reg.mem_read_data 	= mem_result;
 		core->M_reg.alu_result = E_reg_load.alu_result;	
 		core->M_reg.branch_address = 0; // <------------------ change to branch address		
+		printf("%s = %ld\n",VariableName(E_reg_load.signals.MemWrite),E_reg_load.signals.MemWrite);
 		if(E_reg_load.signals.MemWrite)
 		{       
 			core->data_mem[8*E_reg_load.alu_result] = E_reg_load.read_reg_val_2;		
@@ -516,10 +517,10 @@ void hazard_unit(	Signal *PC_Control,
 )
 {
 	
-	printf("%s = %ld\n",VariableName(ID_reg_load->signals.MemRead),ID_reg_load->signals.MemRead);
-	printf("%s = %ld\n",VariableName(ID_reg_load->write_reg),ID_reg_load->write_reg);
-	printf("%s = %ld\n",VariableName(IF_reg_load->reg_read_index_1),IF_reg_load->reg_read_index_1);
-	printf("%s = %ld\n",VariableName(IF_reg_load->reg_read_index_2),IF_reg_load->reg_read_index_2);
+	//printf("%s = %ld\n",VariableName(ID_reg_load->signals.MemRead),ID_reg_load->signals.MemRead);
+	//printf("%s = %ld\n",VariableName(ID_reg_load->write_reg),ID_reg_load->write_reg);
+	//printf("%s = %ld\n",VariableName(IF_reg_load->reg_read_index_1),IF_reg_load->reg_read_index_1);
+	//printf("%s = %ld\n",VariableName(IF_reg_load->reg_read_index_2),IF_reg_load->reg_read_index_2);
 	if (ID_reg_load->signals.MemRead &&
 	((ID_reg_load->write_reg== IF_reg_load->reg_read_index_1) || // <----------- IF_reg_load->reg_read_index_1 needs to be saved in if stage
 	(ID_reg_load->write_reg == IF_reg_load->reg_read_index_2)))
