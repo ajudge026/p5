@@ -173,7 +173,11 @@ bool tickFunc(Core *core)
 	printf("%s = %ld\n",VariableName(ID_reg_load.signals.ALUSrc),ID_reg_load.signals.ALUSrc);		
 	printf("REG FILES\n");	
 	printf("%s = %ld\n",VariableName(core->reg_file[2]),core->reg_file[2] );
+	printf("%s = %ld\n",VariableName(core->reg_file[2]),core->reg_file[3] );
 	printf("%s = %ld\n",VariableName(core->reg_file[4]),core->reg_file[4] );
+	printf("%s = %ld\n",VariableName(core->reg_file[8]),core->reg_file[5] );
+	printf("%s = %ld\n",VariableName(core->reg_file[8]),core->reg_file[6] );
+	printf("%s = %ld\n",VariableName(core->reg_file[8]),core->reg_file[7] );
 	printf("%s = %ld\n",VariableName(core->reg_file[8]),core->reg_file[8] );
 	printf("%s = %ld\n",VariableName(core->reg_file[9]),core->reg_file[9] );	
 	++core->stages_complete;
