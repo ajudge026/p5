@@ -15,7 +15,7 @@ Core *initCore(Instruction_Memory *i_mem)
 	{
 		core->data_mem[i] = 0;		
 	}
-	char testing[] = "load";
+	char testing[] = "no_load";
 	//printf("%s = %s\n",VariableName(testing),testing);
 	testing_function(testing,  core);
     return core;
@@ -588,7 +588,7 @@ void testing_function(char testing[], Core *core)
 		core->reg_file[5] = 26; //outbase
 		core->reg_file[6] = -27; 
 		core->reg_file[40] = 100;
-		core->reg_file[2] = core->reg_file[40];			
+		core->reg_file[2] = -63;			
 	}
 	else if  (strcmp(testing, "not_testing") == 0)
 	{
