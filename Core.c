@@ -139,6 +139,7 @@ bool tickFunc(Core *core)
 		}
 		core->M_reg.write_reg = E_reg_load.write_reg;		
 		core->M_reg.reg_write_mux_val = MUX(E_reg_load.signals.MemtoReg, E_reg_load.alu_result, E_reg_load.mem_read_data);
+		printf("%s = %ld\n",VariableName(core->M_reg.reg_write_mux_val ),core->M_reg.reg_write_mux_val );
 	}	
 	//<------------- WB Reg			
 	core->WB_reg.instr_num = M_reg_load.instr_num;
