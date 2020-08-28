@@ -140,10 +140,10 @@ bool tickFunc(Core *core)
 			core->data_mem[8*E_reg_load.alu_result] = E_reg_load.read_reg_val_2;		
 		}
 		core->M_reg.write_reg = E_reg_load.write_reg;		
-		core->M_reg.reg_write_mux_val = MUX(E_reg_load.signals.MemtoReg, E_reg_load.alu_result, E_reg_load.mem_read_data);
+		core->M_reg.reg_write_mux_val = MUX(E_reg_load.signals.MemtoReg, E_reg_load.alu_result, core->M_reg.mem_read_data);
 		printf("%s = %ld\n",VariableName(core->M_reg.reg_write_mux_val ),core->M_reg.reg_write_mux_val );
 		printf("%s = %ld\n",VariableName(E_reg_load.signals.MemtoReg),E_reg_load.signals.MemtoReg );
-		printf("%s = %ld\n",VariableName(E_reg_load.mem_read_data),E_reg_load.mem_read_data);
+		printf("%s = %ld\n",VariableName(core->M_reg.mem_read_data),core->M_reg.mem_read_data);
 	}	
 	//<------------- WB Reg
 	core->WB_reg.alu_result = WB_reg_load.alu_result;		
