@@ -117,6 +117,7 @@ bool tickFunc(Core *core)
 	core->M_reg.signals = E_reg_load.signals;	
 	core->M_reg.noop_control = 	E_reg_load.noop_control;
 	core->M_reg.instr_num = E_reg_load.instr_num ;
+	core->M_reg.alu_result = E_reg_load.alu_result ;
 	if( (core->stages_complete > 2) && (core->stages_complete < num_instructions + 3) && (M_reg_load.noop_control == 0))
 	{
 		// <------------------------ M Reg
@@ -143,7 +144,8 @@ bool tickFunc(Core *core)
 		printf("%s = %ld\n",VariableName(E_reg_load.signals.MemtoReg),E_reg_load.signals.MemtoReg );
 		printf("%s = %ld\n",VariableName(E_reg_load.mem_read_data),E_reg_load.mem_read_data);
 	}	
-	//<------------- WB Reg			
+	//<------------- WB Reg
+	core->WB_reg.alu_result = WB_reg_load.alu_result;		
 	core->WB_reg.instr_num = M_reg_load.instr_num;
 	core->WB_reg.noop_control = M_reg_load.noop_control;
 		printf("%s = %ld\n",VariableName(M_reg_load.signals.RegWrite),M_reg_load.signals.RegWrite);
