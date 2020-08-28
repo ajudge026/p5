@@ -101,6 +101,8 @@ bool tickFunc(Core *core)
 		alu_in_1 = MUX_3_to_1(Forward_B,alu_in_1,M_reg_load.reg_write_mux_val,E_reg_load.alu_result);
 		alu_in_0 = ID_reg_load.read_reg_val_1;
 		printf("%s = %ld\n",VariableName(M_reg_load.reg_write_mux_val),M_reg_load.reg_write_mux_val);
+		printf("%s = %ld\n",VariableName(ID_reg_load.signals.ALUSrc),ID_reg_load.signals.ALUSrc);
+		printf("%s = %ld\n",VariableName(ID_reg_load.read_reg_val_2),ID_reg_load.read_reg_val_2);
 		alu_in_0 = MUX_3_to_1(Forward_A,alu_in_0,M_reg_load.reg_write_mux_val,E_reg_load.alu_result);
 		printf("%s = %ld\n",VariableName(Forward_A),Forward_A);
 		printf("%s = %ld\n",VariableName(Forward_B),Forward_B);
