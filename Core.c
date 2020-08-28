@@ -15,7 +15,7 @@ Core *initCore(Instruction_Memory *i_mem)
 	{
 		core->data_mem[i] = 0;		
 	}
-	char testing[] = "no_load";
+	char testing[] = "load";
 	//printf("%s = %s\n",VariableName(testing),testing);
 	testing_function(testing,  core);
     return core;
