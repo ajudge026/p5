@@ -1,3 +1,4 @@
 ld x2, 40(x1)
-add x4, x2, x5
-add x8, x2, x5
+and x4, x2, x5
+or x8, x2, x6
+add x9, x4, x2
