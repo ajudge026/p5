@@ -196,19 +196,8 @@ void ControlUnit(unsigned instruction, Signal input,
 	printf("%s = %ld\n",VariableName(input),input);
 	printf("%s = %ld\n",VariableName(func3),func3);
 	printf("%s = %ld\n",VariableName(func7),func7);
-    // For R-type - add
-    if ((input == 51 )&& (func3 == 0) && (func7 == 0)) {
-		//printf("RType\n"); 
-        signals->ALUSrc = 0;
-        signals->MemtoReg = 0;
-        signals->RegWrite = 1;
-        signals->MemRead = 0;
-        signals->MemWrite = 0;
-        signals->Branch = 0;
-        signals->ALUOp = 2;
-    }
-    // For R-type - and
-    if ((input == 51 )&& (func3 == 0) && (func7 == 0)) {
+    // For R-type - add and or OR
+    if ((input == 51 )&& ((func3 == 0) | (func3 == 6) | (func3 == 7)) && (func7 == 0)) {
 		//printf("RType\n"); 
         signals->ALUSrc = 0;
         signals->MemtoReg = 0;

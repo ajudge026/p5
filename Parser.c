@@ -96,6 +96,18 @@ void parseRType(char *opr, Instruction *instr)
         funct3 = 0;
         funct7 = 0;
     }
+    if (strcmp(opr, "and") == 0)
+    {
+        opcode = 51;
+        funct3 = 7;
+        funct7 = 0;
+    }
+    if (strcmp(opr, "or") == 0)
+    {
+        opcode = 51;
+        funct3 = 6;
+        funct7 = 0;
+    }
 	if (strcmp(opr, "sub") == 0)
     {
         opcode = 51;
