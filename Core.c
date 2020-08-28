@@ -606,13 +606,11 @@ void testing_function(char testing[], Core *core)
 	}
 	else if  (strcmp(testing, "load") == 0)
 	{
-		core->data_mem[40*8] = -63; // 40(x1) = -63,
-		core->data_mem[48*8] = 63; // 40(x1) = 2 test	
+		core->data_mem[40*8] = 100 // 40(x1) = -63,		
 		core->reg_file[1] = 0;	 
 		core->reg_file[0] = 0; 
 		core->reg_file[5] = 26; //outbase
-		core->reg_file[6] = -27; 
-		core->reg_file[40] = 100; 
+		core->reg_file[6] = -27; 		
 	}
 }
 void printf_varname(Signal var)
