@@ -194,7 +194,20 @@ void ControlUnit(unsigned instruction, Signal input,
 	Signal func3 = ( (instruction >> (7 + 5)) & 7);
 	Signal func7 = ((instruction >> (7 + 5 + 3 + 5 + 5)) & 127);	
 	printf("%s = %ld\n",VariableName(input),input);
+	printf("%s = %ld\n",VariableName(func3),func3);
+	printf("%s = %ld\n",VariableName(func7),func7);
     // For R-type - add
+    if ((input == 51 )&& (func3 == 0) && (func7 == 0)) {
+		//printf("RType\n"); 
+        signals->ALUSrc = 0;
+        signals->MemtoReg = 0;
+        signals->RegWrite = 1;
+        signals->MemRead = 0;
+        signals->MemWrite = 0;
+        signals->Branch = 0;
+        signals->ALUOp = 2;
+    }
+    // For R-type - and
     if ((input == 51 )&& (func3 == 0) && (func7 == 0)) {
 		//printf("RType\n"); 
         signals->ALUSrc = 0;
