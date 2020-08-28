@@ -118,10 +118,10 @@ bool tickFunc(Core *core)
 	core->M_reg.noop_control = 	E_reg_load.noop_control;
 	core->M_reg.instr_num = E_reg_load.instr_num ;
 	core->M_reg.alu_result = E_reg_load.alu_result ;
+	printf("%s = %ld\n",VariableName(M_reg_load.alu_result),M_reg_load.alu_result);						
 	if( (core->stages_complete > 2) && (core->stages_complete < num_instructions + 3) && (M_reg_load.noop_control == 0))
 	{
-		// <------------------------ M Reg
-		printf("%s = %ld\n",VariableName(M_reg_load.alu_result),M_reg_load.alu_result);						
+		// <------------------------ M Reg		
 		mem_result= 0;		
 		mem_result = core->data_mem[8*E_reg_load.alu_result];
 		if (mem_result > 128)
