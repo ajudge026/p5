@@ -121,6 +121,7 @@ bool tickFunc(Core *core)
 	if( (core->stages_complete > 2) && (core->stages_complete < num_instructions + 3) && (M_reg_load.noop_control == 0))
 	{
 		// <------------------------ M Reg
+		printf("%s = %ld\n",VariableName(M_reg_load.alu_result),M_reg_load.alu_result);						
 		mem_result= 0;		
 		mem_result = core->data_mem[8*E_reg_load.alu_result];
 		if (mem_result > 128)
@@ -132,7 +133,7 @@ bool tickFunc(Core *core)
 		core->M_reg.mem_read_data 	= mem_result;
 		core->M_reg.alu_result = E_reg_load.alu_result;	
 		core->M_reg.branch_address = 0; // <------------------ change to branch address				
-		printf("%s = %ld\n",VariableName(E_reg_load.alu_result),E_reg_load.alu_result);
+		printf("%s = %ld\n",VariableName(E_reg_load.alu_result),E_reg_load.alu_result);						
 		printf("%s = %ld\n",VariableName(mem_result),mem_result);
 		if(E_reg_load.signals.MemWrite)
 		{       
