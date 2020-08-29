@@ -183,7 +183,7 @@ bool tickFunc(Core *core)
 	++core->stages_complete;
     ++core->clk;
     // Are we reaching the final instruction?
-	printf("%s = %ld\n",VariableName(num_instructions), num_instructions);
+	//printf("%s = %ld\n",VariableName(num_instructions), num_instructions);
 	printf("--------------------------------------------\n");	
     if (core->stages_complete > num_instructions + 4 )
     {		
