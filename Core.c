@@ -34,9 +34,9 @@ bool tickFunc(Core *core)
 	Reg_Signals WB_reg_load = core->WB_reg;		
 	
 	printf("%s = %ld\n",VariableName(core->clk),core->clk);
-	printf("%s = %ld\n",VariableName(E_reg_load.noop_control),E_reg_load.noop_control );
-	printf("%s = %ld\n",VariableName(M_reg_load.noop_control),M_reg_load.noop_control );
-	printf("%s = %ld\n",VariableName(WB_reg_load.noop_control),WB_reg_load.noop_control );		
+	//printf("%s = %ld\n",VariableName(E_reg_load.noop_control),E_reg_load.noop_control );
+	//printf("%s = %ld\n",VariableName(M_reg_load.noop_control),M_reg_load.noop_control );
+	//printf("%s = %ld\n",VariableName(WB_reg_load.noop_control),WB_reg_load.noop_control );		
 	Signal PC_Control = 0;
 	 hazard_unit(	 &PC_Control,
 					&IF_reg_load,
@@ -47,8 +47,8 @@ bool tickFunc(Core *core)
 	if(PC_Control == 1) core->instr_mem->last->addr = core->instr_mem->last->addr + 4;
 	Signal num_instructions = (core->instr_mem->last->addr /4) + 1;	
 	core->E_reg.noop_control = PC_Control;
-	printf("%s = %ld\n",VariableName(PC_Control),PC_Control);
-	printf("%s = %ld\n",VariableName(PC_Control),PC_Control );	
+	//printf("%s = %ld\n",VariableName(PC_Control),PC_Control);
+	//printf("%s = %ld\n",VariableName(PC_Control),PC_Control );	
 	if(PC_Control != 0) 
 		{
 			core->PC = core->PC - 4 ;
@@ -74,9 +74,9 @@ bool tickFunc(Core *core)
 		// getting control signals
 		Signal input = (IF_reg_load.instruction & 127);		
 		//ControlSignals signals;
-		printf("initial write reg : %s = %ld\n",VariableName(ID_reg_load.noop_control),ID_reg_load.noop_control);
+		//printf("initial write reg : %s = %ld\n",VariableName(ID_reg_load.noop_control),ID_reg_load.noop_control);
 		ControlUnit(IF_reg_load.instruction, input, &core->ID_reg.signals);	
-		printf("initial write reg : %s = %ld\n",VariableName(core->ID_reg.signals.MemRead),core->ID_reg.signals.MemRead);
+		//printf("initial write reg : %s = %ld\n",VariableName(core->ID_reg.signals.MemRead),core->ID_reg.signals.MemRead);
 		core->ID_reg.write_reg = (IF_reg_load.instruction >> 7) & 31;		
 		core->ID_reg.reg_read_index_1 = (IF_reg_load.instruction >> (7 + 5 + 3)) & 31;
 		core->ID_reg.reg_read_index_2 = (IF_reg_load.instruction >> (7 + 5 + 3 + 5)) & 31;
@@ -100,14 +100,14 @@ bool tickFunc(Core *core)
 		Signal alu_in_1 = MUX(ID_reg_load.signals.ALUSrc,ID_reg_load.read_reg_val_2,ID_reg_load.imm_sign_extended);		
 		alu_in_1 = MUX_3_to_1(Forward_B,alu_in_1,M_reg_load.reg_write_mux_val,E_reg_load.alu_result);
 		alu_in_0 = ID_reg_load.read_reg_val_1;
-		printf("%s = %ld\n",VariableName(M_reg_load.reg_write_mux_val),M_reg_load.reg_write_mux_val);
-		printf("%s = %ld\n",VariableName(ID_reg_load.signals.ALUSrc),ID_reg_load.signals.ALUSrc);
-		printf("%s = %ld\n",VariableName(ID_reg_load.read_reg_val_2),ID_reg_load.read_reg_val_2);
+		//printf("%s = %ld\n",VariableName(M_reg_load.reg_write_mux_val),M_reg_load.reg_write_mux_val);
+		//printf("%s = %ld\n",VariableName(ID_reg_load.signals.ALUSrc),ID_reg_load.signals.ALUSrc);
+		//printf("%s = %ld\n",VariableName(ID_reg_load.read_reg_val_2),ID_reg_load.read_reg_val_2);
 		alu_in_0 = MUX_3_to_1(Forward_A,alu_in_0,M_reg_load.reg_write_mux_val,E_reg_load.alu_result);
-		printf("%s = %ld\n",VariableName(Forward_A),Forward_A);
-		printf("%s = %ld\n",VariableName(Forward_B),Forward_B);
-		printf("%s = %ld\n",VariableName(alu_in_0),alu_in_0);
-		printf("%s = %ld\n",VariableName(alu_in_1),alu_in_1);
+		//printf("%s = %ld\n",VariableName(Forward_A),Forward_A);
+		//printf("%s = %ld\n",VariableName(Forward_B),Forward_B);
+		//printf("%s = %ld\n",VariableName(alu_in_0),alu_in_0);
+		//printf("%s = %ld\n",VariableName(alu_in_1),alu_in_1);
 		Signal func3 =( (ID_reg_load.instruction >> (7 + 5)) & 7);    
 		Signal func7 = ((ID_reg_load.instruction >> (7 + 5 + 3 + 5 + 5)) & 127);	
 		Signal ALU_ctrl_signal = ALUControlUnit(ID_reg_load.signals.ALUOp, func7, func3);		
@@ -120,7 +120,7 @@ bool tickFunc(Core *core)
 	core->M_reg.noop_control = 	E_reg_load.noop_control;
 	core->M_reg.instr_num = E_reg_load.instr_num ;
 	core->M_reg.alu_result = E_reg_load.alu_result ;
-	printf("%s = %ld\n",VariableName(M_reg_load.alu_result),M_reg_load.alu_result);						
+	//printf("%s = %ld\n",VariableName(M_reg_load.alu_result),M_reg_load.alu_result);						
 	if( (core->stages_complete > 2) && (core->stages_complete < num_instructions + 3) && (M_reg_load.noop_control == 0))
 	{
 		// <------------------------ M Reg		
@@ -135,23 +135,23 @@ bool tickFunc(Core *core)
 		core->M_reg.mem_read_data 	= mem_result;
 		core->M_reg.alu_result = E_reg_load.alu_result;	
 		core->M_reg.branch_address = 0; // <------------------ change to branch address				
-		printf("%s = %ld\n",VariableName(E_reg_load.alu_result),E_reg_load.alu_result);						
-		printf("%s = %ld\n",VariableName(mem_result),mem_result);
+		//printf("%s = %ld\n",VariableName(E_reg_load.alu_result),E_reg_load.alu_result);						
+		//printf("%s = %ld\n",VariableName(mem_result),mem_result);
 		if(E_reg_load.signals.MemWrite)
 		{       
 			core->data_mem[8*E_reg_load.alu_result] = E_reg_load.read_reg_val_2;		
 		}
 		core->M_reg.write_reg = E_reg_load.write_reg;		
 		core->M_reg.reg_write_mux_val = MUX(E_reg_load.signals.MemtoReg, E_reg_load.alu_result, core->M_reg.mem_read_data);
-		printf("%s = %ld\n",VariableName(core->M_reg.reg_write_mux_val ),core->M_reg.reg_write_mux_val );
-		printf("%s = %ld\n",VariableName(E_reg_load.signals.MemtoReg),E_reg_load.signals.MemtoReg );
-		printf("%s = %ld\n",VariableName(core->M_reg.mem_read_data),core->M_reg.mem_read_data);
+		//printf("%s = %ld\n",VariableName(core->M_reg.reg_write_mux_val ),core->M_reg.reg_write_mux_val );
+		//printf("%s = %ld\n",VariableName(E_reg_load.signals.MemtoReg),E_reg_load.signals.MemtoReg );
+		//printf("%s = %ld\n",VariableName(core->M_reg.mem_read_data),core->M_reg.mem_read_data);
 	}	
 	//<------------- WB Reg
 	core->WB_reg.alu_result = WB_reg_load.alu_result;		
 	core->WB_reg.instr_num = M_reg_load.instr_num;
 	core->WB_reg.noop_control = M_reg_load.noop_control;
-		printf("%s = %ld\n",VariableName(M_reg_load.signals.RegWrite),M_reg_load.signals.RegWrite);
+		//printf("%s = %ld\n",VariableName(M_reg_load.signals.RegWrite),M_reg_load.signals.RegWrite);
 	if( (core->stages_complete > 3) && (core->stages_complete < num_instructions + 4 ) &&  (WB_reg_load.noop_control == 0))
 	{		
 		core->WB_reg.reg_write_mux_val = MUX(M_reg_load.signals.MemtoReg, M_reg_load.alu_result, M_reg_load.mem_read_data);						
@@ -160,17 +160,17 @@ bool tickFunc(Core *core)
 			core->reg_file[M_reg_load.write_reg] = core->WB_reg.reg_write_mux_val;			
 		}
 	}	
-	printf("Clock cycles = %d\n",core->stages_complete);	
-	printf("%s = %ld\n",VariableName(M_reg_load.signals.RegWrite),M_reg_load.signals.RegWrite);
-	printf("%s = %ld\n",VariableName(core->WB_reg.reg_write_mux_val),core->WB_reg.reg_write_mux_val);		
-	printf("%s = %ld\n",VariableName(core->E_reg.alu_result),core->E_reg.alu_result);		
-	printf("%s = %ld\n",VariableName(core->IF_reg.instr_num),core->IF_reg.instr_num);		
-	printf("%s = %ld\n",VariableName(core->ID_reg.instr_num),core->ID_reg.instr_num);		
-	printf("%s = %ld\n",VariableName(core->E_reg.instr_num),core->E_reg.instr_num);		
-	printf("%s = %ld\n",VariableName(core->M_reg.instr_num),core->M_reg.instr_num);		
-	printf("%s = %ld\n",VariableName(core->WB_reg.instr_num),core->WB_reg.instr_num);		
-	printf("%s = %ld\n",VariableName(ID_reg_load.imm_sign_extended),ID_reg_load.imm_sign_extended);		
-	printf("%s = %ld\n",VariableName(ID_reg_load.signals.ALUSrc),ID_reg_load.signals.ALUSrc);		
+	//printf("Clock cycles = %d\n",core->stages_complete);	
+	//printf("%s = %ld\n",VariableName(M_reg_load.signals.RegWrite),M_reg_load.signals.RegWrite);
+	//printf("%s = %ld\n",VariableName(core->WB_reg.reg_write_mux_val),core->WB_reg.reg_write_mux_val);		
+	//printf("%s = %ld\n",VariableName(core->E_reg.alu_result),core->E_reg.alu_result);		
+	//printf("%s = %ld\n",VariableName(core->IF_reg.instr_num),core->IF_reg.instr_num);		
+	//printf("%s = %ld\n",VariableName(core->ID_reg.instr_num),core->ID_reg.instr_num);		
+	//printf("%s = %ld\n",VariableName(core->E_reg.instr_num),core->E_reg.instr_num);		
+	//printf("%s = %ld\n",VariableName(core->M_reg.instr_num),core->M_reg.instr_num);		
+	//printf("%s = %ld\n",VariableName(core->WB_reg.instr_num),core->WB_reg.instr_num);		
+	//printf("%s = %ld\n",VariableName(ID_reg_load.imm_sign_extended),ID_reg_load.imm_sign_extended);		
+	//printf("%s = %ld\n",VariableName(ID_reg_load.signals.ALUSrc),ID_reg_load.signals.ALUSrc);		
 	printf("REG FILES\n");	
 	printf("%s = %ld\n",VariableName(core->reg_file[2]),core->reg_file[2] );
 	printf("%s = %ld\n",VariableName(core->reg_file[2]),core->reg_file[3] );
@@ -197,12 +197,12 @@ void ControlUnit(unsigned instruction, Signal input,
 {	
 	Signal func3 = ( (instruction >> (7 + 5)) & 7);
 	Signal func7 = ((instruction >> (7 + 5 + 3 + 5 + 5)) & 127);	
-	printf("%s = %ld\n",VariableName(input),input);
-	printf("%s = %ld\n",VariableName(func3),func3);
-	printf("%s = %ld\n",VariableName(func7),func7);
+	//printf("%s = %ld\n",VariableName(input),input);
+	//printf("%s = %ld\n",VariableName(func3),func3);
+	//printf("%s = %ld\n",VariableName(func7),func7);
     // For R-type - add and or OR
     if ((input == 51 )&& ((func3 == 0) | (func3 == 6) | (func3 == 7)) && (func7 == 0)) {
-		//printf("RType\n"); 
+		////printf("RType\n"); 
         signals->ALUSrc = 0;
         signals->MemtoReg = 0;
         signals->RegWrite = 1;
@@ -213,7 +213,7 @@ void ControlUnit(unsigned instruction, Signal input,
     }
 	// For R-type - sub
     if (input == 51 & (func3 == 0) && (func7 == 32)) {
-		//printf("RType\n"); 
+		////printf("RType\n"); 
         signals->ALUSrc = 0;
         signals->MemtoReg = 0;
         signals->RegWrite = 1;
@@ -224,7 +224,7 @@ void ControlUnit(unsigned instruction, Signal input,
     }
 	// For R-type - sll
     if (input == 51 & (func3 == 1)) {
-		//printf("RType\n"); 
+		////printf("RType\n"); 
         signals->ALUSrc = 0;
         signals->MemtoReg = 0;
         signals->RegWrite = 1;
@@ -235,7 +235,7 @@ void ControlUnit(unsigned instruction, Signal input,
     }
     // For ld 
     if (input == 3) { //opcode
-	    //printf("ld\n"); 
+	    ////printf("ld\n"); 
         signals->ALUSrc = 1;
         signals->MemtoReg = 1;
         signals->RegWrite = 1;
@@ -246,7 +246,7 @@ void ControlUnit(unsigned instruction, Signal input,
     }
     // For addaddi , slli 
     if (input == 19 ){
-		//printf("slli\n"); 		
+		////printf("slli\n"); 		
         signals->ALUSrc = 1;
         signals->MemtoReg = 1;
         signals->RegWrite = 1;
@@ -258,7 +258,7 @@ void ControlUnit(unsigned instruction, Signal input,
 	
     // For sd (S-type)
     if (input == 35){
-		//printf("sw\n"); 
+		////printf("sw\n"); 
         signals->ALUSrc = 1;
         signals->MemtoReg = 0; 
         signals->RegWrite = 0;
@@ -269,7 +269,7 @@ void ControlUnit(unsigned instruction, Signal input,
     }
     // For beq (SB-type)
     if (input == 99){ //opcode
-        //printf("bne\n"); 
+        ////printf("bne\n"); 
 		signals->ALUSrc = 0;		
         signals->MemtoReg = 0; 
         signals->RegWrite = 0;
@@ -280,7 +280,7 @@ void ControlUnit(unsigned instruction, Signal input,
     }
 	/* if (noop_control == 1)
 	{
-		//printf("bne\n"); 
+		////printf("bne\n"); 
 		signals->ALUSrc = 0;		
         signals->MemtoReg = 0; 
         signals->RegWrite = 0;
@@ -441,7 +441,7 @@ void ALU(Signal input_0,
     if (ALU_ctrl_signal == 6)
     {
         *ALU_result = (input_0 - input_1);
-		//printf("ALU RESULT - %ld", (input_0 - input_1));
+		////printf("ALU RESULT - %ld", (input_0 - input_1));
         if (*ALU_result != 0) { *zero = 1; } else { *zero = 0; }
     }
     // For shift left
@@ -504,12 +504,12 @@ Signal forwarding_unit(Signal *Forward_A,
 {
 	*Forward_A, *Forward_B =0 ;
 
-	printf("%s = %ld\n",VariableName(M_reg_load.signals.RegWrite),M_reg_load.signals.RegWrite);
-	printf("%s = %ld\n",VariableName(M_reg_load.write_reg),M_reg_load.write_reg);
-	printf("%s = %ld\n",VariableName(E_reg_load.RegWrite),E_reg_load.RegWrite);
-	printf("%s = %ld\n",VariableName(E_reg_load.write_reg),E_reg_load.write_reg);
-	printf("%s = %ld\n",VariableName(ID_reg_load.reg_read_index_1),ID_reg_load.reg_read_index_1);
-	printf("%s = %ld\n",VariableName(ID_reg_load.reg_read_index_2),ID_reg_load.reg_read_index_2); 
+	//printf("%s = %ld\n",VariableName(M_reg_load.signals.RegWrite),M_reg_load.signals.RegWrite);
+	//printf("%s = %ld\n",VariableName(M_reg_load.write_reg),M_reg_load.write_reg);
+	//printf("%s = %ld\n",VariableName(E_reg_load.RegWrite),E_reg_load.RegWrite);
+	//printf("%s = %ld\n",VariableName(E_reg_load.write_reg),E_reg_load.write_reg);
+	//printf("%s = %ld\n",VariableName(ID_reg_load.reg_read_index_1),ID_reg_load.reg_read_index_1);
+	//printf("%s = %ld\n",VariableName(ID_reg_load.reg_read_index_2),ID_reg_load.reg_read_index_2); 
 
 	if (
 	(E_reg_load.signals.RegWrite) &&
@@ -547,7 +547,7 @@ Signal forwarding_unit(Signal *Forward_A,
 		*Forward_B = 1;
 	}  	
 	Signal logic_var = M_reg_load.signals.RegWrite && (M_reg_load.write_reg != 0) && (~(E_reg_load.RegWrite && (E_reg_load.write_reg != 0)) && ((E_reg_load.write_reg == ID_reg_load.reg_read_index_2)));
-	printf("%s = %ld\n",VariableName(logic_var),logic_var);
+	//printf("%s = %ld\n",VariableName(logic_var),logic_var);
 		
     
 }
@@ -561,10 +561,10 @@ void hazard_unit(	Signal *PC_Control,
 )
 {
 	
-	//printf("%s = %ld\n",VariableName(ID_reg_load->signals.MemRead),ID_reg_load->signals.MemRead);
-	//printf("%s = %ld\n",VariableName(ID_reg_load->write_reg),ID_reg_load->write_reg);
-	//printf("%s = %ld\n",VariableName(IF_reg_load->reg_read_index_1),IF_reg_load->reg_read_index_1);
-	//printf("%s = %ld\n",VariableName(IF_reg_load->reg_read_index_2),IF_reg_load->reg_read_index_2);
+	////printf("%s = %ld\n",VariableName(ID_reg_load->signals.MemRead),ID_reg_load->signals.MemRead);
+	////printf("%s = %ld\n",VariableName(ID_reg_load->write_reg),ID_reg_load->write_reg);
+	////printf("%s = %ld\n",VariableName(IF_reg_load->reg_read_index_1),IF_reg_load->reg_read_index_1);
+	////printf("%s = %ld\n",VariableName(IF_reg_load->reg_read_index_2),IF_reg_load->reg_read_index_2);
 	if (ID_reg_load->signals.MemRead &&
 	((ID_reg_load->write_reg== IF_reg_load->reg_read_index_1) || // <----------- IF_reg_load->reg_read_index_1 needs to be saved in if stage
 	(ID_reg_load->write_reg == IF_reg_load->reg_read_index_2)))
